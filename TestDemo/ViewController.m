@@ -21,6 +21,8 @@
 #import "Link.h"
 #import <CoreFoundation/CoreFoundation.h>
 #import "TimerSecondViewController.h"
+#import <JavaScriptCore/JSVirtualMachine.h>
+#import <JavaScriptCore/JSContext.h>
 
 @interface ViewController ()<WKNavigationDelegate, WKScriptMessageHandler>
 @property (nonnull, copy) NSString *name;
@@ -121,7 +123,18 @@
     
     NSProxy *proxy = [NSProxy alloc];
     // 不走方法查询，消息转发是直接到forwardInvocation,然后走doesNotRecognizeSelector。
-//    [proxy performSelector:@selector(didProxy)];
+    // [proxy performSelector:@selector(didProxy)];
+    // 可以用来做中间转发，比如在弱引用的timer或者消息转发很合适
+    // 轻量级，比NSObject轻很多
+    
+    
+    
+    
+    // context中的全局对象，oc和js能相互调用就是因为这个globalObject 可以通过context来设置全局方法和数据，通过jsvalue转换
+    // 两端都可以访问，其他跨语音访问大概率也是
+    JSContext *context = [JSContext currentContext];
+    NSLog(@"%@",context.globalObject);
+    
 }
 
 
