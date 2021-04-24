@@ -14,6 +14,8 @@
 		670A52E32633BEA8003CAADE /* 问题.txt in Resources */ = {isa = PBXBuildFile; fileRef = 670A52E12633BEA8003CAADE /* 问题.txt */; };
 		670A52E62633BEB0003CAADE /* displayLink原理.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 670A52E52633BEB0003CAADE /* displayLink原理.jpeg */; };
 		670A52E92633BEBB003CAADE /* note2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 670A52E82633BEBB003CAADE /* note2.txt */; };
+		670A52ED2633C014003CAADE /* SQLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 670A52EC2633C014003CAADE /* SQLite.m */; };
+		670A52F12633FD32003CAADE /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 670A52F02633FD32003CAADE /* Image.m */; };
 		67146F8725FD3101001C8E0D /* RunLoop.m in Sources */ = {isa = PBXBuildFile; fileRef = 67146F8625FD3101001C8E0D /* RunLoop.m */; };
 		6755BDCB25EC95EB00CB3D9B /* semphore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6755BDCA25EC95EB00CB3D9B /* semphore.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		6755BDCF25EC992800CB3D9B /* char.m in Sources */ = {isa = PBXBuildFile; fileRef = 6755BDCE25EC992800CB3D9B /* char.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -48,6 +50,10 @@
 		670A52E12633BEA8003CAADE /* 问题.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "问题.txt"; sourceTree = "<group>"; };
 		670A52E52633BEB0003CAADE /* displayLink原理.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "displayLink原理.jpeg"; sourceTree = "<group>"; };
 		670A52E82633BEBB003CAADE /* note2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = note2.txt; sourceTree = "<group>"; };
+		670A52EB2633C014003CAADE /* SQLite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQLite.h; sourceTree = "<group>"; };
+		670A52EC2633C014003CAADE /* SQLite.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQLite.m; sourceTree = "<group>"; };
+		670A52EF2633FD32003CAADE /* Image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		670A52F02633FD32003CAADE /* Image.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
 		67146F8525FD3101001C8E0D /* RunLoop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RunLoop.h; sourceTree = "<group>"; };
 		67146F8625FD3101001C8E0D /* RunLoop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RunLoop.m; sourceTree = "<group>"; };
 		6755BDC925EC95EB00CB3D9B /* semphore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = semphore.h; sourceTree = "<group>"; };
@@ -193,6 +199,10 @@
 				675F127D25EB885600ED4E83 /* Tree.m */,
 				675F126325E8DC1800ED4E83 /* ViewController.h */,
 				675F126425E8DC1800ED4E83 /* ViewController.m */,
+				670A52EB2633C014003CAADE /* SQLite.h */,
+				670A52EC2633C014003CAADE /* SQLite.m */,
+				670A52EF2633FD32003CAADE /* Image.h */,
+				670A52F02633FD32003CAADE /* Image.m */,
 			);
 			path = TestDemo;
 			sourceTree = "<group>";
@@ -315,6 +325,7 @@
 				6755BDCB25EC95EB00CB3D9B /* semphore.m in Sources */,
 				675F126525E8DC1800ED4E83 /* ViewController.m in Sources */,
 				67C5D19025F3530A00A1C2C8 /* Array.m in Sources */,
+				670A52ED2633C014003CAADE /* SQLite.m in Sources */,
 				675F128225EBA83700ED4E83 /* sort.m in Sources */,
 				675F125F25E8DC1800ED4E83 /* AppDelegate.m in Sources */,
 				67A0A64125F9040B0070C73F /* Link.m in Sources */,
@@ -325,6 +336,7 @@
 				675F127E25EB885600ED4E83 /* Tree.m in Sources */,
 				675F126225E8DC1800ED4E83 /* SceneDelegate.m in Sources */,
 				675F127925EB78D900ED4E83 /* LRU.mm in Sources */,
+				670A52F12633FD32003CAADE /* Image.m in Sources */,
 				67986130261F3BA60045485A /* NSMyOperation.m in Sources */,
 				67C5D19425F3658800A1C2C8 /* Request.m in Sources */,
 			);

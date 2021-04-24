@@ -128,8 +128,6 @@
     // 轻量级，比NSObject轻很多
     
     
-    
-    
     // context中的全局对象，oc和js能相互调用就是因为这个globalObject 可以通过context来设置全局方法和数据，通过jsvalue转换
     // 两端都可以访问，其他跨语音访问大概率也是
     JSContext *context = [JSContext currentContext];
