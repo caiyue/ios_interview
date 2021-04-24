@@ -1,0 +1,302 @@
+
+图片渲染的流程。
+
+
+怎么减少native过度渲染，怎么减少react的渲染
+
+
+图片的缩放会重新生成bitmap图片吗 ？
+
+
+mmap内存映射
+
+
+source0，有什么  
+source1， 有什么  ipc通信，其他线程唤醒消息
+
+子线程卡顿怎么监控
+
+
+new copy 对象什么时候释放
+
+UI渲染事件和runloop 有什么关系
+
+Gesture 手势的优先级是怎么处理的
+
+弹幕系统设计
+
+非alloc/new/copy/mutableCopy开头的方法编译器都会自动帮我们调用autorelease方法。
+
+//自定义类方法
++ (instancetype)createSark {
+    return [self new]; //这里是有autorelease的（谁创建谁释放）
+}
+
+- (NSObject *)object {
+    NSObject *o = [[NSObject alloc] init];
+    return o;
+}
+这里 o 的所有权修饰符是默认的 __strong。由于 return 使得 o 超出其作用域，它强引用持有的对象本该被释放，但是由于该对象作为函数返回值，所以一般情况下编译器会自动将其注册到 Autorelease Pool 中（注意这里是一般情况下，在一些特定情况下，ARC 机制提出了巧妙的运行时优化方案来跳过 autorelease 机制，见后面章节）。这是 autorelease 机制默默起作用的一个例子。
+
+
+
+modelLayer：动画只修改了一次，比如说动画修改frame，实际上View只修改了一次，最终是通过实时的修改 presentationLayer来实现动画的。
+
+modelLayer 负责存储动画的目标值的模型对象。每当更改图层的属性时，它都会把数据存储下来。当动画开始执行时，presentationLayer就上场了。屏幕上显示的就是presentationLayer，动画的过程中，你可以时刻访问动态变化的数据。例如：视频中的滚动弹幕如果是使用layer做动画的，当弹幕正在滚动时，你需要点击它以处理需要做的事情，这时候你就会需要presentationLayer。再结合hintTest方法来做判断：
+
+
+CoreAnimation: 
+单独进程，修改的是 presentationLayer，进行硬件操作和优化，操作硬件会进行一帧一帧的进行动画。
+
+非CoreAnimation：
+当前进程进行动画，修改的是 modelLayer，presentationLayer只是 modelLayer的复制品。
+
+
+如果在动画过程中进行交互事件，可以在View 的touch方法中，判断 presentationLayer 是否包括点击的触摸点，来进行处理。
+
+
+NSInvocation:比performSelctor withObject：更好用，主要是perform 参数有限制，而NSInvocation没有限制。
+
+NSMethodSignature是用来记录方法返回值和参数的数据结构， methodSignatureForSelector 目的是创建NSMethodSignature对象，NSInvocation 创建的时候依赖NSMethodSignature 对象。
+
+
+一个CAAnimation，从位置 0，0   移动到  100，100， 获取postion是多少？
+
+CoreAnimation原理再学习下吧
+
+一键换皮肤
+
+  手势响应优先级
+
+  二叉树反转 交换左右节点
+  
+  UIView渲染流程
+
+  lynx动态化
+
+  native script 
+
+  rn 消息传递原理
+
+  jsc 上下文共享数据的原因
+
+
+jsc，一个虚拟机包括一个或者多个jscontext，oc和js的相互调用其实都是因为jscontext 有一个全局对象globalObject，这里存储了相关oc和js设置的全局数据和方法，所以可以相互调用，jsvalue可以负责oc和js的数据和方法的相互转换。
+
+
+头条算法：
+求数组连续和最大的子数组
+二叉树层级遍历（每隔一层顺序就取反）
+求数组元素后面
+
+
+crash 都有那些可能因素导致的 ？
+
+如何捕获这些crash ？
+
+看门狗地址，如何检测到卡死
+0x8badf00d：也叫ate badfood。
+
+
+图片占用内存大小计算方式
+
+png、jpg、webp压缩率比较，有损压缩率比较
+
+jsc 和 v8的区别
+
+
+
+
+检测接口调用。。。。
+
+组件化二进制，是否需要链接？
+
+链接的时候确定符号地址
+
+
+代码段合并   地址确定
+数据段合并   地址确定
+
+
+
+
+
+
+
+
+36.6 * 15.5  = 56.7
+
+30% = 73.7 （+15w）
+
+35% = 76.5 （+20w） 16薪
+
+
+
+
+跟谁学：
+47*14   5w * 4 = 20w   70.8w 技术100人，ios资深岗位，有带人空间
+10、8，6个月试用期，5% 的公积金，9点，10点打车，3月调薪，晋升，4次绩效，年终奖基础2个月
+
+跟谁学：307%  432%  236%   71亿
+传智播客：29%  13%  16.7   9亿（19）  5（20）
+美团:  92%  49%  17%  1147亿
+快手：
+
+
+
+暗黑模式适配：
+做一个manager，绑定View和block，在manager中监听暗黑模式的消息，收到消息后，执行所有注册的block，
+在block中判断是哪种模式，设置不同的UI。
+
+
+卡顿监控，如果observer 回调不执行怎么办 ?
+
+虚拟内存空间最大可以管理地址是多少 ？ 32位4G，64位，幂次方
+
+类方法如果不加 autorelease，能访问吗 ？ 什么时候能访问，什么时候不能访问？
+
+jsc是如何实现js和native 共享的 ？
+
+获取屏幕中的点的颜色 ？
+
+crash sdk 是如何设计的 ？
+
+imageNamed 对象什么时候释放 ？
+
+如果没有autorelease  对象会立马释放吗 ？
+
+怎么获取所有线程的堆栈 ？
+
+
+65w + 5w
+
+
+42k * 16 = 67.2w  40W (10W)  77.2W  36% , 20%的加班新增包，+8400， +加班费（大小周 4.2W/21 加班费）
+
+
+公积金 12%
+
+
+职级：K3B
+
+
+快手：
+42K * 16 + 10w股票/年 = 77w  （8400 * 12）  + （3400 * 12）
+
+跟谁学：
+45 * 14 + 13w股票/年 = 76w                   （1350 * 12）
+
+核桃编程：
+65w + 20w期权/年 = 85w
+
+
+
+
+
+日志系统使用mmap保证内存和磁盘数据同步，防止crash 数据丢失的问题。
+
+NSCache 比NSdictionary，NSArray当缓存好，后者偶尔出现空间暴增，因为内存压缩如果解压缩回导致内存暴增，NSCache不会。NSCache如果收到内存警告，会自动清理内存。
+
+Last_modify
+cache-control
+
+
+SDWebImage，在后台默认替换图片，前端实际上无法拉取最新图片，因为会从内存中取。
+
+拉取静态资源，需要利用Last_modify，减少拉取。
+
+
+http  gzip 是怎么实现的 ？
+
+
+跟进网络请求下发到低质量图片，图片大小不变，压缩率变化。
+
+mach-o linkMap文件
+
+LLVM后端：
+
+block 是如何捕获吗 ？
+
+
+swift 5.0：
+swift 不需要main入口
+swift 类型安全
+Optionals 相当于nil指针。
+
+
+
+3.20    16：00     周六下午    猿辅导
+
+3.21    17：00     周日下午    快手
+
+3.22    11：00     周一上午    完美世界
+
+3.22    14：00     周一下午    核桃编程
+
+3.22    19：30     周一下午    腾讯
+
+3.23    11：00     周二上午    跟谁学
+
+
+3.23    20：00     周二晚上    跟谁学
+3.24    16：00     周三下午    跟谁学
+3.24    19：00     周三下午    百度
+
+
+3.25    14：00     周四下午    快手
+
+
+
+// TODO 请在这里编写代码
+ unsgined int32 ip2Num(char *ip) {
+    char num[4];
+    char *p = ip;
+    char *headP = p;
+    int index = 0;
+    while(*p != '\0') {
+        if (*p == '.') {
+            char *temp = p;
+            num[index++] = getValue(headP, --temp);
+            headP = p + 1;
+        }
+        p++;
+    }
+    
+    return (unsgined int32)num;
+}
+
+char getValue(char *startP, char *endP) {
+    char *p = endP;
+    char num = 0;
+    int position = 0;
+    while(p != startP) {
+        num += (*p - '\0') * pow(10, position);
+        endP--;
+        postion++;
+    }
+    return num;
+}
+
+
+图片裁剪：
+
+mvvm：
+
+oom ：NSCache清理图片，stack导航站 最多不能超过3个，清理最前面哪个
+
+
+wal：rollback
+
+索引：b+1
+
+
+
+
+
+
+
+
+
+
+
+

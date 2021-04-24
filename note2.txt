@@ -1,0 +1,99 @@
+npm install -g npm@5.4.0
+
+gem install bundler  -v 1.12
+
+yarn config get registry  
+yarn config set registry xxxx
+
+
+config.build_settings['GCC_TREAT_WARNINGS_AS_ERRORS'] = "NO"
+
+
+
+xcodebuild archive -workspace xgfe_app_camel_bd.xcworkspace -scheme 'xgfe_app_camel_bd' -configuration 'Release' -export_method 'enterprise' -output_name 'xgfe_app_camel_bd-1.0-10023'
+
+
+
+xcodebuild -scheme xgfe_app_camel_bd -workspace xgfe_app_camel_bd.xcworkspace  clean && xcodebuild -scheme xgfe_app_camel_bd -workspace xgfe_app_camel_bd.xcworkspace -configuration Debug | xcpretty -r json-compilation-database -o compile_commands.json
+
+
+ git branch -m oldName newName
+ git push --delete origin oldName
+ git push origin newName
+ git branch --set-upstream-to origin/newName
+
+
+
+getChildContext 传递store给子组件
+connect 会生成高阶组件，在state变化后，刷新props，新增的props如果调用，会执行相关acton，主要是：
+1、通过props.store获取祖先Component的storeprops包括stateProps、dispatchProps、parentProps,合并在一起得到nextState，作为props传给真正的Component
+2、componentDidMount时，添加事件this.store.subscribe(this.handleChange)，实现页面交互
+3、shouldComponentUpdate时判断是否有避免进行渲染，提升页面性能，并得到nextState
+4、componentWillUnmount时移除注册的事件this.handleChange
+
+
+/^\d{6,}$/ 至少6位小数
+
+
+
+<Wrap>
+
+   <KeyboardAvoidingScrollView>
+   ...
+   </KeyboardAvoidingScrollView>
+
+   <button/>
+</
+
+
+
+
+1、进入后台，settimeout 不会导致清理进程，是iOS系统自己的清理机制导致，如果settimeout时间较长，正好系统清理进程，导致给人一种setitmeout导致进程清理的错觉，
+可以尝试设置时间10s左右，就会看到，无论怎么切换都是没问题的。
+2、iOS 杀后台进程在iOS13 很频繁，在其他版本还好，目前苹果文档说被杀的时机是：
+
+
+
+2、settimeout会存在执行失效的问题
+苹果只允许在后台执行：
+音视频播放、定位更新、下载，所以setitmeout会存在执行不了的问题
+
+
+
+腾讯和高德是同一坐标的，可以互用，百度的坐标与两者稍有不同，使用前，需要先经过换算。
+
+
+
+
+1、提pr 到master分支 包括spc版本1.0.12 以及代码修改
+2、在master分支上添加tag  git tag -m "first release" 1.0.12
+3、推送tag到远端  git push --tags
+4、修改repo 组件的spec，新建版本目录，在目录中的spec填写新版本 ，并直接提交到repo 中,这里都是直接在master分支操作的 （repo实际上是各个版本的spec的结合）
+5、pod install 引用即可
+
+
+git tag -m "first release" 0.1.0
+git push --tags #推送tag到远端仓库
+pod lib lint --no-clean --allow-warnings --verbose
+pod spec lint KLMImagePicker.podspec --allow-warnings --verbose --use-libraries
+pod repo push sankuai-xgfe-ios-space KLMImagePicker.podspec --allow-warnings --use-libraries --verbose
+
+
+
+binary_pod 去依赖：指定哪些包，什么版本就安装哪些，其他不会安装
+
+
+
+brew reinstall ruby
+sudo gem uninstall cocoapods
+sudo gem install -n /usr/local/bin cocoapods
+brew switch openssl 1.0.2r
+
+
+
+：s / old / new / g
+
+git revert -m 1  07f22defcd8ddf4ef0b35dac5f06755cf2a0658e   回滚merge commit
+
+
+

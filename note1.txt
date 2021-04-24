@@ -1,0 +1,856 @@
+
+
+block的实现数据结构__main_block_impl_0 中会把含捕获到的外部变量作为自己的成员变量,是经过复制过的相同类型,所以存在引用 +1 的问题
+__block 会在 __main_block_impl_0 会把捕获的外部变量作为自己的成员变量，是 __Block_byref_val_0类型的指针，
+__forwarding指针是为了在__block变量从栈复制到堆上后，在Block外对__block变量的修改也可以同步到堆上实际存储__block变量的结构体上。
+
+
+
+https
+view渲染过程
+链表排序：
+objc_class 数据结构以及方法是链表组成的吗?  不是的，是二位数组。
+
+
+
+png无损压缩，jpeg有损压缩，都是压缩的位图数据，解码方式：
+1、CGBitmapContextCreate、CGContextDrawImage、CGBitmapContextCreateImage
+2、CGImageSourceCreateWithData、CGImageSourceCreateImageAtIndex、CGImageGetDataProvider、CGDataProviderCopyData
+3、imageNamed 创建 UIImage 时，系统实际上只是在 Bundle 内查找到文件名，然后把这个文件名放到 UIImage 里返回，并没有进行实际的文件读取和解码。当 UIImage 第一次显示到屏幕上时，其内部的解码方法才会被调用，同时解码结果会保存到一个全局缓存去
+
+整体流程：加载图片--解码图片--图片渲染
+
+优化：cpu闲置时间解码、子线程解码
+
+
+SDWebImageManager 用来从缓存根据CacheKey查找图片是否已经在缓存中，如果内存中已经有图片缓存， SDWebImageManager会回调SDImageCacheDelegate: imageCache: didFindImage: forKey: userInfo:
+
+如果内存中没有图片缓存，那么生成 NSInvocationOperation 添加到队列，从硬盘查找图片是否已被下载缓存。
+
+如果上一操作从硬盘读取到了图片，将图片添加到内存缓存中（如果空闲内存过小，会先清空内存缓存）
+回调 imageCache:didFindImage:forKey:userInfo:。进而回调展示图片。
+
+如果从硬盘缓存目录读取不到图片，说明所有缓存都不存在该图片，需要下载图片
+
+共享或重新生成一个下载器 SDWebImageDownloader 开始下载图片
+
+通知所有的 downloadDelegates 下载完成，回调给需要的地方展示图片
+
+将图片保存到 SDImageCache 中，内存缓存和硬盘缓存同时保存。
+
+layoutsubviews:
+init初始化不会触发。
+addSubview时。
+设置frame且前后值变化，frame为zero且不添加到指定视图不会触发。
+旋转Screen会触发父视图的layoutSubviews。
+滚动UIScrollView引起View重新布局时会触发layoutSubviews。
+
+
+NSNotificationCenter 在哪个线程发送的，就在哪个线程处理。
+dealloc 方法是在导致引用计数清零的线程执行，也就是哪个线程导致引用计数为0，就在哪个线程执行dealloc。
+
+
+
+如果要在显示屏上显示内容，我们至少需要一块与屏幕像素数据量一样大的frame buffer，作为像素数据存储区域。如果有时因为面临一些限制，无法把渲染结果直接写入frame buffer，而是先暂存在另外的内存区域，之后再写入frame buffer，那么这个过程被称之为离屏渲染
+为什么它会导致离屏渲染。因为GPU的渲染是遵循“画家算法”，一层一层绘制的，但阴影很特殊，它需要全部内容绘制完成，再根据外轮廓进行绘制。这就导致了，阴影这一层要一直占据一块内存区域，这就导致了离屏渲染。
+
+
+block:
+block外界声明weak是为了实现block对对象的弱持有，而里面的作用是为了保证在进到block时不会发生释放。
+block 是对象。forwarding对象是干什么用的,和外部进行数据交换的
+block在MRC中需要使用copy手动拷贝到堆区，在arc中，可以使用strong，因为编译器会自动copy或者copy，为了保持方便，一般使用copy。
+
+
+NSArray NSString使用copy，是保证setter的时候，如果是可变数组，会生成一个不可变的，这样可以保证数据不会被外部篡改。
+默认是atomic的，不是严格的原子性的。
+
+
+可变对象，copy/mutablecopy都会生成新对象，前者是不可变对象，后者是可变对象。
+不可变对象，copy不会生成新对象，mutablecopy会生成新可变对象。
+
+
+NSCache NSDictionary：前者会有内存压缩，减少内存占用，且NSCache是线程安全的,而后者不是。一般缓存建议使用前者。
+
+
+NSDictionary: key 一般需要遵守NSCopying协议，NSString、NSValue、NSNumber都可以，以为都遵守了该协议。
+
+
+Autoreleasepool的原理是一个双向列表，它会对加入其中的对象实现延迟释放。当Autoreleasepool调用drain方法时会释放内部标记为autorelease的对象。释放时机是runloop循环结束后，给最近的pool所有对象发送release消息
+autoreleasepool是由autoreleasepage对象的双向链表组成，因为在释放pool的时候，实际上是进行了链表的pop，所以需要使用双向链表才能找到哨兵对象
+
+
+哨兵对象是用于标记自动释放池需要释放的边界对象，4096字节，每次入栈就会移动哨兵对象
+
+
+alloc/new/copy/mutablecopy开头的方法  不会会进入自动释放池，但是像类方法返回的对象，编译器会自动加入释放池
+UI对象，一般是子线程创建，主线程释放，如果是普通的对象，在哪个线程release，就在哪个线程dealloc。
+
+
+对象release后，不一定立马释放，如果对象被回收了，调用会crash，如果没有被回收，还可以继续访问
+
+
+ __weak 属性：
+In conclusion, this design of __weak ensure that during the usage of weak pointer, its state is consistent. The new implmenetation of __weak of Apple LLVM version 8.0.0 (clang-800.0.42.1) do not postpond the release to autoreleasepool, but use objc_release directly.
+
+runTime会把对weak修饰的对象放到一个全局的哈希表中，用weak修饰的对象的内存地址为key，value是所有指针变量组成一个数组。
+在对象进行销毁时，用通过自身地址去哈希表中查找到所有指向此对象的weak指针，并把所有的weak指针置位nil
+
+
+
+
+消息发送流程：
+先确定调用方法的类已经都加载完毕，如果没加载完毕的话进行加载
+从cache中查找方法
+cache中没有找到对应的方法，则到方法列表中查，查到则缓存
+如果本类中查询到没有结果，则遍历所有父类重复上面的查找过程，直到NSObject
+
+消息转发：
+消息转发的时候，如果是实例方法会走resolveInstanceMethod:，如果是类方法会走resolveClassMethod:，它们的返回值都是Bool，需要我们确定是否进行转发。
+如果第一步返回YES，确定转发就会进到下个方法forwardingTargetForSelector，这个方法需要我们指定一个被用receiver。
+methodSignatureForSelector用于指定方法签名，forwardInvocation用于处理Invocation，进行完整转发。
+如果消息转发也没有处理即为无法处理，会调用doesNotRecognizeSelector，引发崩溃。
+
+
+
+category：
+可以添加属性，这里的属性指@property，但跟类里的@property又不一样。正常的@property为：实例变量Ivar + Setter + Getter 方法，分类里的@property这三者都没有，需要我们手动实现。
+分类是运行时将category的数据合并到类信息中的，这时类的内存结构已经固定了，所以我们无法添加实例变量。
+对于分类自定义Setter和Getter方法，我们可以通过关联对象（Associated Object）进行实现。
+
+
+关联对象：
+数据存储在AssociationsManager，一个实例对象，对应一个ObjectAssociationMap，
+哈希表中存储的是key和关联对象，所以哈希表会有很多个，但是Manager只会有一个。
+
+
+struct category_t {}
+ 	char * _Nonnull category_name                            OBJC2_UNAVAILABLE;
+    char * _Nonnull class_name                               OBJC2_UNAVAILABLE;
+    struct objc_method_list * _Nullable instance_methods     OBJC2_UNAVAILABLE;
+    struct objc_method_list * _Nullable class_methods        OBJC2_UNAVAILABLE;
+    struct objc_protocol_list * _Nullable protocols   
+ }
+
+ struct objc_class {
+	Class isa;
+	Class super_class OBJC2_UNAVAILABLE; // 父类
+	const char *name OBJC2_UNAVAILABLE; // 类名
+	long version OBJC2_UNAVAILABLE; // 类的版本信息，默认为0
+	long info OBJC2_UNAVAILABLE; // 类信息，供运行期使用的一些位标识
+	long instance_size OBJC2_UNAVAILABLE; // 该类的实例变量大小
+	struct objc_ivar_list *ivars // 该类的成员变量数组
+	struct objc_method_list **methodLists; // 方法定义的链表
+	struct objc_cache *cache OBJC2_UNAVAILABLE; // 方法缓存，对象接到一个消息会根据isa指针查找消息对象，这时会在methodLists中遍历，如果cache了，常用的方法调用时就能够提高调用的效率。
+	struct objc_protocol_list *protocols OBJC2_UNAVAILABLE; // 协议链表
+} 
+
+
+卡顿检查：
+kCFRunLoopBeforeSources 主要是处理点击时间、线程唤醒等任务
+kCFRunLoopAfterWaiting，处理timer、处理主线程的异步任务，处理source1
+
+source0指的的是手动触发的事件，source1一般是其他线程的唤醒消息，一般是内核mach_port进行管理和触发的。
+
+
+一般开启一个线程，通过信号量通知，runloop的回调通知里发送信号量，子线程里wait信号量2s，如果2s后信号量依然等不到，
+那说明住线程的runloop是卡在某一个状态的，然后判断当前的状态是不是beforeSource 或者是 afterWaiting状态，如果是这2个状态，
+那就开始上报堆栈。 上报堆栈。
+task_threads 获取所有线程
+thread_get_state 获取线程状态和调用栈
+dladdr 根据地质信息解析真实的堆栈信息
+
+
+__unsafe_unretained & weak：前者是弱引用不会自动置成nil，后者会自动nil。
+
+
+协议路由，模块框架:
+
+
+fmdb 并发实现：实际上是串行队列
+
+yymodel 原理：
+先将json转换成字典对象，然后遍历model属性，判断类型，并实例化model对象，
+最终通过objc_msgSend调用setter方法设置值。
+至于为什么要用setter方法，而不是直接赋值，主要是为了方便解决strong/weak这些修饰词的问题。
+
+特殊情况：YYEncodingTypeCArray、YYEncodingTypeUnion、YYEncodingTypeStruct 是通过setValue ForKey赋值的。
+
+
+timer 循环引用，runloop 强持有timer，timer强持有target，使用weakTarget也无法解决问题，解决方式
+是使用timer 和block，避免使用target，或者target使用中间类（当前的vc也传递进去），中间类弱引用target，
+中间类内部在forwardingtarget 中返回这个vc对象。这样可以保证方法的正常执行。
+
+
+
+
+因为wait状态有可能会很长时间（beforeWaiting状态），也会导致信号量超时，但是因为后面子线程的判断逻辑只判断 beforeSource和 afterWaiting状态，
+所以beforeWaiting状态就被过滤掉了。
+
+
+
+应用启动流程：
+main前：dylib
+加载可执行文件
+加载动态链接库（系统和应用的动态链接库），进行rebase指针调整和bind符号绑定
+Objc运行时的初始处理，包括Objc相关类的注册，category注册，selector唯一性检查
+加载类，加载分类，
+执行+load()、attribute(constructor)修饰的函数的调用、创建C++静态全局变量
+
+main后：
+首页初始化所需要配置文件的读写操作
+首页界面渲染
+
+
+堆&栈，同属一块区域：
+栈是高地址往低地址存储，堆说低地址往高地址存储
+当该基础类型变量被__block捕获时，该变量连同block都会被copy到堆上。
+
+
+Least recently used （LRU） 最近最少使用算法：
+新数据插入到链表的头部
+每当缓存命中时，删除节点然后则将数据移动到链表头部
+链表满时，将尾部数据清除
+
+CAShapeLayer:图形绘制
+CAReplicatorLayer：大量重复layer，用于特殊场景
+
+
+// 前序遍历 中序遍历 非递归算法
+// 快速排序 最差On2，平均OnLgn ，归并排序，平均复杂度OnLgn
+// 翻页动画
+
+QUIC协议：减少了三次握手时间 https://zhuanlan.zhihu.com/p/32553477
+改进了拥塞策略
+
+webp的压缩算法:
+无损WebP基于使用不同的技术对图像数据进行转换，包括：预测空间变换、色彩空间转换、使用调色板
+有损WebP基于VP8视频编码中的预测编码方法来压缩图像数据
+
+webView支持webp：通过URLProtocol拦截请求，并进行webp到普通普通的转换。
+
+缺点：解码效率会降低
+
+
+
+引用 & 指针区别：
+1、指针是一个变量，只不过这个变量存储的是一个地址，指向内存的一个存储单元；而引用跟原来
+的变量实质上是同一个东西，只不过是原变量的一个别名而已。
+2、指针的值在初始化后可以改变，即指向其它的存储单元，而引用在进行初始化后就不会再改变
+
+
+
+
+包大小：
+图片压缩，无用图片删除
+一些大图可以动态下发，webp压缩算法
+删除无用类，无用方法
+减少三方库的依赖
+
+编译流程：
+预处理：处理宏定义，删除注释，展开头文件。
+词法分析，分割代码
+语法分析，语法是否正确，并合成抽象语法树 （ast）
+
+llvm后段：
+静态分析，查找代码错误
+汇编生成汇编文件
+机器码生成.o文件
+链接生成可执行文件
+
+
+
+排序：归并排序
+
+
+
+MVVM:数据绑定，事件监听，需要框架支持，多个协作开发，每个人负责自己的VM即可。
+AOP：横向编程，与自上而下的OOP是相对的，一般用于打点，数据统计。
+MVC：苹果推荐，不符合国情，C太臃肿。
+
+KVO:是基于KVC的，生成中间类，重写setter方法，修改isa指针。在setter方法里，willChange DidChange来通知外部。
+可以直接利用好willChange 、doSomething 、 didChange 来通知外变化。
+
+KVC: 程序优先调用set<Key>:属性值方法，代码通过setter方法完成设置。如果没有找到setName：方法，KVC机制会检查+ (BOOL)accessInstanceVariablesDirectly。如果该方法让其返回NO的话，那么在这一步KVC会执行setValue：forUndefinedKey：方法
+如果返回YESKVC机制会搜索该类里面有没有名为_<key>的成员变量。
+
+静态库：链接时被完整复制到可执行文件中，多次使用就多份拷贝。
+动态库：链接时不复制，而是由系统动态加载到内存，内存中只会有一份该动态库。
+
+
+
+而二进制重排的做法就是将 method1 与 method4 放到一个内存页中 , 那么启动时则只需要加载 page1 即可 , 也就是只触发一次 page fault , 达到优化目的 .
+实际项目中的做法是将启动时需要调用的函数放到一起  ( 比如 前10页中 )  以尽可能减少 page fault , 达到优化目的 . 而这个做法就叫做 : 二进制重排
+
+
+首先 , Xcode 是用的链接器叫做 ld , ld 有一个参数叫 Order File  , 我们可以通过这个参数配置一个 order 文件的路径 .
+在这个 order 文件中 , 将你需要的符号按顺序写在里面 .
+当工程 build 的时候 , Xcode 会读取这个文件 , 打的二进制包就会按照这个文件中的符号顺序进行生成对应的 mach-O .
+
+
+
+Hash：
+哈希表（Hash Table，也叫散列表），是根据关键码值 (Key-Value) 而直接进行访问的数据结构。也就是说，它通过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。我们常用的Dictionary就是一种Hash表。
+
+解决Hash冲突的方式有开放定址法和链地址法。
+
+二叉树:
+满二叉树
+完全二叉树，满二叉树，从右到左删除，即是完全二叉树
+二叉搜索树，左节点比父节点小，右节点比父节点大
+平衡二叉树：平衡二叉树要么是一棵空树，要么保证左右子树的高度之差不大于 1，并且子树也必须是一棵平衡二叉树。
+
+前中后序遍历
+
+快排：主要是选基数，两边开始遍历，交互数据，然后递归左/右边的数组
+
+
+
+
+暗黑模式
+
+http2.0:
+多路复用：
+http1.1 浏览器在某一时间点最多只能发送固定的请求，其他的需要等待，所以需要多个域名的cdn资源优化加载
+http2.0 解决了上述问题，可以连续发送多个请求，http/2 不再依赖多个TCP连接去实现多流并行了。每个数据流都拆分成很多互不依赖的帧，而这些帧可以交错（乱序发送），还可以分优先级，最后再在另一端把它们重新组合起来。
+http 2.0 连接都是持久化的，而且客户端与服务器之间也只需要一个连接（每个域名一个连接）即可
+http2连接可以承载数十或数百个流的复用，多路复用意味着来自很多流的数据包能够混合在一起通过同样连接传输
+当到达终点时，再根据不同帧首部的流标识符重新连接将不同的数据流进行组装。
+
+头部压缩（HPACK算法）：
+减少请求头和返回头的重复数据发送
+
+http1.0的gzip是body压缩，二者不冲突
+
+问题：
+复用单个tcp链接，会出现阻塞的问题
+应用层无法保证数据先发先到，但是tcp层会保证数据的顺序（通过滑动窗口解决），如果后者先到，会等到前者，根据包的序列号进行排序。
+tcp是双工的。滑动窗口，依赖硬件。
+
+滑动窗口协议是传输层进行流控的一种措施，接收方通过通告发送方自己的窗口大小，从而控制发送方的发送速度，从而达到防止发送方发送速度过快而导致自己被淹没的目的
+
+拥塞窗口是发送方使用的流量控制，而通告/滑动窗口则是接收方使用的流量控制。
+
+TCP 为了保证可靠性，使用了基于字节序号的 Sequence Number 及 Ack 来确认消息的有序到达。
+
+
+MTU发生在ip层，因为链路层无法接受太大的数据包，所以会在ip层进行分包
+
+Max Segment Size，MSS，TCP最大报文长度，tcp头一般是32字节，1500 - 
+
+
+
+pod install： 检查lock文件，如果没有安装最新版本，如果有lock文件，lock中的版本不变，安装最新的未指定依赖的版本
+pod update：不会理会lock文件，直接找所有库的最新版本。可以指定组件名，更新特定组件。
+
+
+server Push：
+
+
+  
+
+面向对象设计的六大原则：
+单一职责原则，一个类干一件事情
+开闭原则，通过继承解决父类问题，而不是修改类代码
+里氏替换原则，子类可以干父类的时候，父类不一定干子类的。
+依赖倒置原则，具体依赖抽象，抽象不应该依赖具体
+接口隔离原则，只依赖需要的接口
+迪米特原则，高内聚，低耦合
+
+
+红黑树：
+每个节点只有红色或者黑色节点
+根节点只能是黑色的。
+
+
+
+http: 传输层负责传送数据，应用层负责封装和解压数据。
+socket:是tcp 上层接口，socket可以建立长链接，http 不行，Socket是接口封装，我们才能使用TCP/IP协议。
+socket端口主要目的是ipc通信，这样才能找到对应的服务，为什么不用进程id替换呢 ？ 因为进程id会变，而端口不会变。
+
+websocket:
+
+
+
+tcp: 三次握手的目的是保证不会因为一些异常状态，建立重复链接,消费重复资源， 4次挥手保证数据传递完毕。
+
+udp:不建立连接，速度快，每个数据报的大小限制在64K之内
+
+
+http请求方式：
+GET获取资源
+POST提交数据进行处理
+HEAD获取资源头部信息
+PUT替换指定资源
+DELETE删除指定资源
+
+
+
+探案：
+View的渲染流程：Core Animation->涂层树->呈现树->渲染树
+cpu计算frame、drawRect、drawLayer等、然后打包给 openGL，openGL可以控制gpu渲染，最终通过VSync 信号进行刷新到GPU
+
+
+进程：程序单位
+线程：调度单位
+协程：线程之上的任务，只需要在用户态切换任务即可，可以在一个线程上建立多个协程任务，减少线程切换。
+
+
+线程同步：
+1、锁，信号量，自旋锁
+2、自旋锁为什么好 ？ 哪种性能好 ？自旋锁性能好，线程不用状态切换，前提是临界区是小任务，且cpu是多核
+3、最差，syncrhonized 原理  互斥递归锁
+
+
+卡顿检测具体方案：
+计算逻辑：
+
+获取调用栈，只能获取当前线程的：其他线程依赖mach接口：
+int frames = backtrace(callstack, 128);
+char **strs = backtrace_symbols(callstack, frames);
+
+
+图片解码过程 addSubView时触发，SD是cpu来解码
+CGImageSourceUpdateData 可以用来做图片渐进加载
+
+dispatch_barrier_async 栅栏函数，栅栏之前的执行完毕，才会执行栅栏和后面的block, 必须是自己创建的并发对列，不然和dispatch_async表现是一样的。可以用来执行多读单写的一些并发任务（pthrad_rw_lock。
+dispatch_apply 执行多次block
+
+
+
+GCD：可以取消任务， dispatch_block_cancel 即可。
+NSOperationQueue 可以设置任务依赖，设置并发，取消任务
+
+
+
+MLeakFinder 给Nobject 添加 category方法， 在VC执行willDealloc方法时，
+延迟3s后，让View执行cateogry方法，如果可以执行就说明还没有释放，就会认为内存泄漏了
+
+
+
+super & self:
+当 发送 class 消息 时不管是 self 还是 super 其消息主体依然是 self ,也就是说 self 和 super 指向的 是同一个对象。只是 查找方法的位置 区别，一个从本类，一个从本类的超类。 
+一般情况下 class 方法 只有在 根类 NSObject 中定义，极少情况有子类重写 class 方法， 
+所以 [slef class] 和 [super class] 都是在 根类中 找方法实现， 消息接收主体 又都是 a 
+
+
+NSProxy:
+比NSObject 轻量级，不能直接init，可以alloc后直接使用。
+NSProxy不会像NSObject那样走方法查询。而是走消息转发是直接到forwardInvocation,
+然后走doesNotRecognizeSelector。
+
+
+xcrun : 预编译、宏处理、词法分析、语法分析（abt），执行器
+
+bundle 加载流程
+
+
+js 和 native 事件交互流程：RCTTouchHandler 添加到RootContentView上，处理事件。
+
+线程同步 & rwlock读写锁
+
+日志系统，应该串行队列，先压缩，再加密，mmap内存&硬盘同步，多个日志消息批量处理，单个日志数据包含数据长度，方便后续解压处理。
+
+文件损坏：md5校验
+
+ipa 签名流程
+
+mach-o 文件格式:
+
+
+拦截Crash：
+set_exception_ports来监控异常以及unix信号异常来做crash 监控。
+
+怎么监控OOM：
+
+
+算法：
+1、链表排序、反转、合并、插入、删除
+2、二叉树高度、前序、后序遍历，广度遍历、二叉树左右反转
+3、数组快排、冒泡、归并、堆排序、二分查找
+4、字符串最长非重复子串，通过滑动窗口解决
+5、LRU算法
+6、哈希表实现原理
+7、求2个View的共同的父View，利用View的hash存储在hashMap中。
+8、生产者&消费者
+9、ip放到unsinged int32位里面，搞一个char a[4],解析数据然后放到每一个字节里即可。
+10、a、b 都是递增数组，左边的元素 <= 右边的元素，输出a、b共同的元素以及以及在a中重复的个数，
+要求空间复杂度 O1
+
+
+isEqual: 可以进行各个字段的对比来决定是否相同。
+@(100) isEqual @(100),常亮对象，是相等的，指针也是一样的。自定义对象创建的2个对象就不相同了。
+
+hash: isEqual相同的对象，hash也是一样的。
+
+
+hitTest 返回点击事件响应的View
+1、当用户触摸(Touch)屏幕进行交互时，系统首先要找到响应者（Responder）。系统检测到手指触摸(Touch)操作时，将Touch 以UIEvent的方式加入UIApplication事件队列中。UIApplication从事件队列中取出最新的触摸事件进行分发传递到UIWindow进行处理。UIWindow 会将UITouch传递给hittest 以及 gesture。 
+
+2、识别成功的gesture所关联的View 会收到touchCancel的消息，并且hittest View不再收到UITouch消息。
+3、前者会通过hitTest:withEvent:方法寻找触碰点所在的视图，这个过程称之为hit-test view。
+
+hitTest 的顺序如下
+
+UIApplication -> UIWindow -> Root View -> ··· -> subview
+在顶级视图（Root View）上调用pointInside:withEvent:方法判断触摸点是否在当前视图内；
+
+如果返回NO，那么hitTest:withEvent:返回nil；
+
+如果返回YES，那么它会向当前视图的所有子视图发送hitTest:withEvent:消息，所有子视图的遍历顺序是从最顶层视图一直到到最底层视图，即从subviews数组的末尾向前遍历，直到有子视图返回非空对象或者全部子视图遍历完毕。
+
+
+pointInside withEvent 判断当前点击区域是否是在view内部，一般用在点击View外部区域，返回yes即可。
+
+重合的View，如果希望最上面的view不响应 而是父视图的某一个按钮响应，需要在当前view的hittest 里返回null，或者直接返回需要响应的View。
+
+当前的View的一个button超出View的区域，不会响应，因为pointInside方法会返回NO，因为point不在view之中。
+
+
+
+头条：
+遍历多叉树的高度，数组数据交换
+autoreleasepool & runloop & RN的渲染原理 &对动态化的态度
+
+load :父类的load，然后子类的load,然后是category的load， 分类的load根据加载顺序来执行。
+initialize:第一次实例化对象会调用，先category，会覆盖本类。如果实例化子类，会先调用父类的，然后调用子类的，如果子类没有实现，会调用两次父类方法
+其他方法：category的新方法会优先调用，不会覆盖本类方法，只是在方法列表里，处于靠前的位置。至于哪个分类的方法靠前依赖加载顺序。
+
+
+__bridge只是简单的进行了指针转换，并没有移交持有权
+__bridge_retained  在OC对象转CF对象时，CF指针会对OC对象引用计数+1，这样，就算OC变量释放，对象依然不会释放
+__bridge_transfer  在CF对象转OC对象时，被转换的变量所持有的对象在该变量被赋值给转换目标变量后随之释放
+
+
+swift：
+继续使用CocoaTouch框架，取消了指针等不安全访问，提供了命名空间，泛型
+
+synthesize：编译器，编译期间生成getter setter方法
+dynamic： 自行实现getter setter方法
+
+sqlite & mysql：https://www.cnblogs.com/frydsh/archive/2013/04/13/3018666.html
+sqlite数据是存储在单个文件中，没有权限验证，小数据并发强
+数据库索引：b+树，数据只存储在叶子结点里，非叶子结点存储索引，数据查询只需要遍历叶子结点即可。
+rollback journal机制实现原子事务: 
+在修改数据库文件中的数据之前，先将修改所在分页中的数据备份在另外一个地方，然后才将修改写入到数据库文件中；如果事务失败，则将备份数据拷贝回来，撤销修改；如果事务成功，则删除备份数据，提交修改。
+
+wal:write ahead log:
+修改并不直接写入到数据库文件中，而是写入到另外一个称为WAL的文件中；如果事务失败，WAL中的记录会被忽略，撤销修改；如果事务成功，它将在随后的某个时间被写回到数据库文件中，提交修改。
+
+
+
+
+
+
+isEqual 是NSObject协议里的，一般 == 是判断是否是一个对象或基类，isEqual判断对象是否相等（有可能是不是一个对象，但是数据是相等的）
+hash方法依赖isEqual，isEqual相同的对象，hash 也相同。
+
+
+iOS渲染流程：
+1、图层树：逻辑层，布局&显示，代码可以操作，最后通过ipc打包提交给openGL
+2、呈现树：动画层， openGL最终来纹理生成和着色，绘制图形
+3、渲染树：GPU合并渲染，应用纹理，并显示
+
+
+layoutSubviews:
+init初始化不会触发layoutSubviews.
+addSubview会触发layoutSubviews。
+设置view的Frame会触发layoutSubviews,以及父view的layout执行
+
+
+
+管城：
+临界区可以退出，信号量或者锁不行，必须要执行完毕
+管程是互斥的，信号量不一样是互斥的。
+
+
+framework可以是动态库或者静态库
+
+
+
+oc的动态性：
+多态：从编译时推迟到运行时才能确定类型
+
+NSURLConnection & NSURLSession：
+前者数据存储在内存，后者可以减少内存占用，后者可以对于任务
+
+NSURLSession： 针对upload、download、普通任务提供了具体的任务，普通任务时，两者没有区别，
+下载任务时，NSURLConnection时先保存数据到内存，再到沙盒，容易导致内存爆增。NSURLSession不会时会下载到沙盒中，不会导致内存增加
+
+NSURLSession 可以控制请求暂停和恢复，而connection取消后，只能重新创建请求
+
+
+
+iOS事件响应：
+事件传递从UIApplication ——> UIWindow ——> 子视图（先处理最新的子view） ——> ... ——> 子视图，通过hit-test
+userInteractionEnabled = NO hidden = YES，alpha < 0.01，无法接受不了事件
+
+字符串引用计数：
+stringWithFormat 创建的对象，会有引用计数
+initWithString和stringWithString后面直接跟常量，创建的NSString对象，属于常量，无引用计数的说法，一般返回-1，如果跟着的是一个上述的对象，
+是有引用计数的。
+
+
+webview渲染原理：
+webkit将h5元素渲染到一个WKCompostiingView
+同层渲染：
+1、创建一个 DOM 节点并设置其 CSS 属性为 overflow: scroll ，WebKit会自动生成一个WKChildScrollView对象，
+一一对应的关系
+2、将原生组件挂载到 WKChildScrollView上，作为子视图
+3、修改dom节点的属性也会影响到原生组件，这就叫同层渲染。
+
+
+wkwebview：webViewWebContentProcessDidTerminate 监控进程消失和白屏
+addUserScript 可以注入native对象和js方法
+window.webkit.messageHandlers.callFunction.postMessage(string) 调用native方法
+
+webView内存占用的问题
+
+
+
+UIWebView 使用JSContext 来进行js调用native，使用evaluateJavaScript来调用js方法
+
+
+
+app的生命周期：
+
+
+
+图片圆角：性能好
+UIGraphicsBeginImageContextWithOptions
+CGContextAddPath
+CGContextClip
+drawInRect:CGRectMake
+CGContextDrawPath
+
+CAAnimationGroup:并发执行动画
+CATransition 执行动画
+
+
+继承 & 分类区别：继承是扩展，分类是扩展&解耦合
+继承可以添加方法和属性，category不行
+
+
+afnetwork：
+AFURLSessionManager/AFHTTPSessionManager，前者实际上是调用的NSURLSession
+AFURLRequestSerialization/AFURLResponseSerialization
+AFSecurityPolicy
+AFNetworkReachabilityManager
+UIKit+AFNetworking
+常驻线程主要负责处理数据回调到主线程
+AFSSLPinningModePublicKey 主要来解决中间人攻击证书造假导致的问题，核心原理是将公钥存储到客户端，验证时和服务端的证书进行比较。
+
+
+
+fmdb：
+FMDatabaseQueue 负责并发，实际上是一个串行队列
+
+AsyncDisplayKit: 渲染、布局、在runloop闲置事件进行处理
+
+
+dyld 把启动流程链接起来的。主要是系统提供的能力。
+通过Hook，IOS系统底层内存分配的相关方法（包括malloc_zone相关的堆内存分配以及vm_allocate对应的VM内存分配方法），
+跟踪并记录进程中每个对象内存的分配信息，包括分配堆栈、累计分配次数、累计分配内存等，这些信息也会被缓存到进程内存中。
+
+
+sdwebimage：内存-硬盘-->同步内存-->网络下载->解码队列-->同步内存&硬盘
+
+
+内存分区：
+代码区，主要代码二进制
+数据区，系统申请，存放全局变量，静态变量
+堆区，malloc，new等自行申请的区域
+栈区，局部变量，函数参数使用
+
+
+inline 函数：
+1、函数在调用时会入栈，执行完毕会出栈，同时函数进行了代码复用，减少了代码量。
+2、inline函数则是，代码会复制到调用函数中，避免了函数的调用和入栈，提高了效率，
+但是会导致调用方代码量增加，相当于解决了函数调用的前一个问题，同时把后者的优点也搞丢了。
+3、一般适用于频繁调用的函数，且代码量较小，逻辑简单。
+
+
+https加密方案：
+使用非对称加密将密钥加密后，发送出去，对方使用私钥揭秘后，然后双方使用同一个密钥进行加密和解密数据。
+为了防止公钥在传输过程中被篡改，所以一般把公钥放在数字证书里。只要证书是安全的（系统内置根证书可以验证），公钥就是安全的。
+数据传输对称加密的公钥是双端协商出来的。
+
+https主要流程：
+1）客户端发起一个http请求，连接到服务器的443端口。
+2）服务端把自己的信息以数字证书的形式返回给客户端（证书内容有密钥公钥，网站地址，证书颁发机构，失效日期等）。证书中有一个公钥来加密信息，私钥由服务器持有。
+3）验证证书的合法性
+客户端收到服务器的响应后会先验证证书的合法性（证书中包含的地址与正在访问的地址是否一致，证书是否过期）。
+4）生成随机密码（RSA签名）
+如果验证通过，或用户接受了不受信任的证书，浏览器就会生成一个随机的对称密钥（session key）并用公钥加密，让服务端用私钥解密，解密后就用这个对称密钥进行传输了，并且能够说明服务端确实是私钥的持有者。
+5）生成对称加密算法
+验证完服务端身份后，客户端生成一个对称加密的算法和对应密钥，以公钥加密之后发送给服务端。此时被黑客截获也没用，因为只有服务端的私钥才可以对其进行解密。之后客户端与服务端可以用这个对称加密算法来加密和解密通信内容了。
+
+
+charles抓包原理：
+实际上就是作为中间代理，拦截服务端返回给客户端的证书（包含公钥），然后自己生成证书和公私钥，并把证书（包含公钥）返回给客户端
+客户端拿到公钥，会加密本地生成的对称秘钥，charles拿到加密后的对称秘钥后，用自己的私钥解密，就拿到了对称秘钥。
+后续的加解密都是利用这个对称秘钥。
+https://zhuanlan.zhihu.com/p/67199487
+
+
+
+线程创建后会自动创建一个有一个autoreleasepool，
+自线程调用runloop才会创建runloop，runloop循环中会自动创建autoreleasepool,循环结束后，给最近的pool释放
+如果是手动添加的pool，出了作用域就开始释放
+
+
+
+1024 * 768 分辨率 ，水平1024个像素点，垂直768个像素点
+pt是物理点，一般包括几个像素点，如2x 3x设备
+
+
+
+复盘四步：
+回归目标 & 评估结果 & 分析原因 & 总结改进
+
+
+
+高性能列表：
+https://km.sankuai.com/page/274182682
+react-native-largelist
+
+
+在我们使用 RN 进行开发时，我们所写 JSX 都会被转化为 ElementTree。RN 拿到这颗 ElementTree 之后，如果当前没有 Virtual DOM，就会创建一个新的 Virtual DOM 出来；如果已经存在的话，则会利用这份新的 ElementTree 和现存的 Virtual DOM 做一次增量更新。接下来 RN 对 Virtual DOM 的修改会同步给 Native 侧，这样就完成了一次渲染。
+
+
+willDisplay， endDisplay，通知js进行渲染， js缓存复用组件
+
+白屏：prefetch提前渲染卡片，拦截快速滑动导致的事件、骨架屏
+
+
+xcrun simctl install/list/
+
+
+npm i yalc -g
+yalc publish
+yalc add "@mrn/travel-common"
+yalc push
+
+
+ Generator 函数会返回一个遍历器对象, Generator 函数是一个普通函数，但是有两个特征。一是，function关键字与函数名之间有一个星号；二是，函数体内部使用yield表达式，定义不同的内部状态（yield在英语里的意思就是“产出”）。 
+
+const getAsyncParams = () => {
+    return Promise.all([getFingerprint(), getLocation()]);
+};
+
+const [fingerprint = '', location = { lat: 0, lng: 0 }] = yield getAsyncParams();
+store-->action--->saga-->reducer-->state-->mapStateToProps-->component-->mapDispatchToProps-->store-->action
+actionType 和 actionCreator 必须要完全对应，单词之间用下划线，（必须一样，不然红屏）
+
+
+seamless-immutable merge setin set
+... 语法
+as myclass
+purcomponent
+
+yeild call(funct, para)
+
+yeild put(action)
+state.asMutable()
+babel vue  model 
+
+
+频道内:
+列表-->poi  	
+imeituan://www.meituan.com/hotel/poi?ct_poi=044368111474630721612580383369365387653_c0_e13343567176544506399_a_b400200_o1_dhotelpoitagb_k1002&filterString=true-true-hotel-20&isRecommend=0&poiId=150399762&roomFilterType=2&flagshipFlag=0&conId=7753777691884546000&propagateData=%7B%22content%22:%22CYksnts4RuHwqJNWe0pdnGVAghrz0bE6+CYdZfbQA0rShAXnIVVvuLcdAxMbaaW+oihuw4ruO5In+uH1fB2qlbRio4qxDFpcdIElRbKuqL1GHf2czY5GyQpQOJOVJ7854l3b65YdvCnTM8dKDFN9game8rlTXfFpuCK8KnvgePWdVQOo08JtoiXuGajNkk8VhiTuWb513UMhRgCYiNLeH2rlodNtLV4viyjEjZkPzNkL5XCIj9OOVbKItVRd9pRPBVGkItg43zLr8Bk1ew7soQf7XGj%5C/D5j0YxNjm0M9XTJDv+JnnpfXLPeXLlBWbtNiUNmQP3eyHeRFlmQ1UNr5T+Z2PgBTTkDXkB7NXFnJF%5C/3ej4xCcQR9wpWQMRQOCy8ZOuob16pJ3wPqL23L5+3rIFFGQJ4WeWRqhICI95SitHgsuGsZHXtx5CBJcdxvsG2QAGOUxdRdk3%5C/PlH%5C/kGWzyew%22,%22poiType%22:%221%22,%22contentTransparent%22:%22fOiGR1u2tnnN1jUMMtf7dj3%5C/UburThNYLGwfDLt3sinX9LGJA615BhA7MjnvhHI88X+b07IpJZKVCvVMYrZBKlIrUAyiN8qA%5C/F0Nb6+a2H3CnUDlw0Ih%5C/EOuJ+HxqgJQegx96h5c1gAeZQKaUpjmPhladp9dpQBylL6z9DTdctmKqMtKSm9ovOKBD5fFfba3%22%7D&showPosition=1&showType=hotel&poiType=0	
+
+
+
+解析crash日志:
+find /Applications/Xcode.app -name symbolicatecrash -type f
+/Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework/Versions/A/Resources/symbolicatecrash
+./symbolicatecrash RunLoop.crash RunLoop.app.dSYM > jieguo.crash 查看具体的crash
+
+如果报错 Error: "DEVELOPER_DIR" is not defined at ./symbolicatecrash line 69. 需要 执行命令
+export DEVELOPER_DIR="/Applications/XCode.app/Contents/Developer"
+然后重新 输入命令
+./symbolicatecrash RunLoop.crash RunLoop.app.dSYM > jieguo.crash
+这样就看到一个名字jieguo.crash 已经符号化的文件了
+
+
+openUrl:  openUrl:  options: 是异步进行跳转的
+
+Crash 治理 + Metrics接入FPS,CPU,页面加载时间
+
+git commit --amend --allow-empty --author="蔡月 <caiyue03@meituan.com>" 
+
+
+
+MRC 中，block 拷贝变量到堆上的时候，变量会执行block_retain_object 操作，导致循环引用，我们使用__block 的话，不会调用block_retain_object ,而是会执行 block_object_assign ，赋值，所以可以解决循环引用
+
+
+ARC 中，block 拷贝到堆上的时候，变量会执行默认创建__strong 标签的变量，在arc 中，这表示的就是强引用，所以，导致循环引用，所以外部的变量应该使用__weak 修饰一下
+
+
+关于__block 为什么解决不了ARC 中的问题，那是因为 __block 修饰的变量会执行block_object_assign操作，在MRC 中，赋值不会改变引用计数，但是在ARC 中，默认的变量都是__strong 的，所以会导致引用计数增加
+
+为什么__block 可以修改外部变量 ？
+没有__block的时候，block 内部的变量是外部变量的值拷贝，是新变量，所以无法改变外部变量。但是添加__block 后，会在堆上生成一个对象保存，当前变量的指针，这样就可以改变外部的变量值。
+
+
+block strong操作是保证weak的对象不会释放释放，如果block延迟执行，实际上有可能VC已经释放了，捕获的weakSelf此时就为空了。所以还需要判断strongself是否是空。
+
+
+添加属性只能是在类的创建时添加，extension  是在编译起执行的，所以可以添加属性、方法，而且必须要依赖实现文件，所以不能给系统类添加Extendsion
+
+category 是属于运行时的，此时类的结构已经固定，是无法添加属性的，因此没有getter、setter 方法。也是因为是运行时，所以如果添加个property ，编译时不会报错，运行时才会出问题
+
+category可以添加方法
+__forwarding指针是为了在__block变量从栈复制到堆上后，在Block外对__block变量的修改也可以同步到堆上实际存储__block变量的结构体上。
+
+
+
+内存：https://juejin.im/post/5abe543bf265da23784064dd
+runtime：https://juejin.im/post/5ac0a6116fb9a028de44d717
+http&s：https://juejin.im/post/5af557a3f265da0b9265a498
+runloop：https://juejin.im/post/5aca2b0a6fb9a028d700e1f8
+kvo&kvc：https://juejin.im/post/5aef18b76fb9a07aa34a28e6
+多线程：https://juejin.im/post/5ab4a4466fb9a028d14107ff
+autorelease:https://juejin.im/post/5a66e28c6fb9a01cbf387da1
+
+内存管理掘金：https://juejin.im/post/5a43a48451882525ab7c0fac
+消息转发：https://juejin.im/post/5a55c8956fb9a01c9405bd82
+block循环引用：https://juejin.im/post/5a44ddd36fb9a045031065b2
+
+多线程掘金gcd和operation：https://juejin.im/entry/57dcc1cc0bd1d00057e97dc7
+gcd掘金：https://juejin.im/post/5a90de68f265da4e9b592b40
+operation掘金：https://juejin.im/post/5a90de68f265da4e9b592b40
+
+
+思考：关于下划线下划线block关键字在MRC和ARC下的不同？？？
+__block在MRC下有两个作用 
+
+1. 允许在Block中访问和修改局部变量  
+2. 禁止Block对所引用的对象进行隐式retain操作 
+
+
+ __block在ARC下只有一个作用
+ 1. 允许在Block中访问和修改局部变量
+
+
+
+ 问题一的回答：runtime会自动load所有引用到项目里的类，而initialize是懒加载，用到的时候才执行。
+问题二的回答：
+
+load调用顺序| 父类->子类->分类 
+initialize调用顺序 分类->父类->子类
+
+
+优化启动时间
+内嵌的dylib尽可能少，或者合并起来。
+
+
+Rebase/Binding减少__DATA中需要修正的指针。 对于oc来说减少 class, selector, category这些元数据的数量，对与c++来说，减少虚函数数量。swift结构体需要修正的比较少。
+将不必须在+load中做的事延迟到+ initialize中。
+不使用xib，直接用代码加载首页视图。
+release版不要用NSLog输出。
+启动时的网络请求尽可能异步。
+
+
+
+
+

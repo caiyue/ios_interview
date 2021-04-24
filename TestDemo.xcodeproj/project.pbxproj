@@ -10,6 +10,10 @@
 		14AB7D136CC62463A430546A /* libPods-TestDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCB674B9990B4B9B6A47A319 /* libPods-TestDemo.a */; };
 		6703D8BD260B81A400331D0B /* TimerSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6703D8BC260B81A400331D0B /* TimerSecondViewController.m */; };
 		6703D8C72610C2E200331D0B /* objc4-runtime-750 in Resources */ = {isa = PBXBuildFile; fileRef = 6703D8C62610C2E200331D0B /* objc4-runtime-750 */; };
+		670A52E22633BEA8003CAADE /* note1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 670A52E02633BEA8003CAADE /* note1.txt */; };
+		670A52E32633BEA8003CAADE /* 问题.txt in Resources */ = {isa = PBXBuildFile; fileRef = 670A52E12633BEA8003CAADE /* 问题.txt */; };
+		670A52E62633BEB0003CAADE /* displayLink原理.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 670A52E52633BEB0003CAADE /* displayLink原理.jpeg */; };
+		670A52E92633BEBB003CAADE /* note2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 670A52E82633BEBB003CAADE /* note2.txt */; };
 		67146F8725FD3101001C8E0D /* RunLoop.m in Sources */ = {isa = PBXBuildFile; fileRef = 67146F8625FD3101001C8E0D /* RunLoop.m */; };
 		6755BDCB25EC95EB00CB3D9B /* semphore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6755BDCA25EC95EB00CB3D9B /* semphore.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		6755BDCF25EC992800CB3D9B /* char.m in Sources */ = {isa = PBXBuildFile; fileRef = 6755BDCE25EC992800CB3D9B /* char.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -40,6 +44,10 @@
 		6703D8BB260B81A400331D0B /* TimerSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimerSecondViewController.h; sourceTree = "<group>"; };
 		6703D8BC260B81A400331D0B /* TimerSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimerSecondViewController.m; sourceTree = "<group>"; };
 		6703D8C62610C2E200331D0B /* objc4-runtime-750 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "objc4-runtime-750"; sourceTree = "<group>"; };
+		670A52E02633BEA8003CAADE /* note1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = note1.txt; sourceTree = "<group>"; };
+		670A52E12633BEA8003CAADE /* 问题.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "问题.txt"; sourceTree = "<group>"; };
+		670A52E52633BEB0003CAADE /* displayLink原理.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "displayLink原理.jpeg"; sourceTree = "<group>"; };
+		670A52E82633BEBB003CAADE /* note2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = note2.txt; sourceTree = "<group>"; };
 		67146F8525FD3101001C8E0D /* RunLoop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RunLoop.h; sourceTree = "<group>"; };
 		67146F8625FD3101001C8E0D /* RunLoop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RunLoop.m; sourceTree = "<group>"; };
 		6755BDC925EC95EB00CB3D9B /* semphore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = semphore.h; sourceTree = "<group>"; };
@@ -115,6 +123,10 @@
 		675F125125E8DC1800ED4E83 = {
 			isa = PBXGroup;
 			children = (
+				670A52E12633BEA8003CAADE /* 问题.txt */,
+				670A52E52633BEB0003CAADE /* displayLink原理.jpeg */,
+				670A52E82633BEBB003CAADE /* note2.txt */,
+				670A52E02633BEA8003CAADE /* note1.txt */,
 				6703D8C62610C2E200331D0B /* objc4-runtime-750 */,
 				675F125C25E8DC1800ED4E83 /* TestDemo */,
 				675F125B25E8DC1800ED4E83 /* Products */,
@@ -250,10 +262,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				670A52E62633BEB0003CAADE /* displayLink原理.jpeg in Resources */,
 				675F126D25E8DC1A00ED4E83 /* LaunchScreen.storyboard in Resources */,
 				6703D8C72610C2E200331D0B /* objc4-runtime-750 in Resources */,
 				675F126A25E8DC1A00ED4E83 /* Assets.xcassets in Resources */,
 				675F126825E8DC1800ED4E83 /* Main.storyboard in Resources */,
+				670A52E32633BEA8003CAADE /* 问题.txt in Resources */,
+				670A52E22633BEA8003CAADE /* note1.txt in Resources */,
+				670A52E92633BEBB003CAADE /* note2.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
