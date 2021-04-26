@@ -33,6 +33,8 @@
 		675F127E25EB885600ED4E83 /* Tree.m in Sources */ = {isa = PBXBuildFile; fileRef = 675F127D25EB885600ED4E83 /* Tree.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		675F128225EBA83700ED4E83 /* sort.m in Sources */ = {isa = PBXBuildFile; fileRef = 675F128125EBA83700ED4E83 /* sort.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		677D87692615D36E0063D923 /* Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = 677D87682615D36E0063D923 /* Runtime.m */; };
+		6788948B26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6788948926366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@2x.png */; };
+		6788948C26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6788948A26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@3x.png */; };
 		67986130261F3BA60045485A /* NSMyOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6798612F261F3BA60045485A /* NSMyOperation.m */; };
 		67A0A64125F9040B0070C73F /* Link.m in Sources */ = {isa = PBXBuildFile; fileRef = 67A0A64025F9040B0070C73F /* Link.m */; };
 		67C5D19025F3530A00A1C2C8 /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C5D18F25F3530A00A1C2C8 /* Array.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -86,6 +88,8 @@
 		675F128125EBA83700ED4E83 /* sort.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sort.m; sourceTree = "<group>"; };
 		677D87672615D36E0063D923 /* Runtime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Runtime.h; sourceTree = "<group>"; };
 		677D87682615D36E0063D923 /* Runtime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Runtime.m; sourceTree = "<group>"; };
+		6788948926366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "live_card_gift_balance_icon_diamond@2x.png"; sourceTree = "<group>"; };
+		6788948A26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "live_card_gift_balance_icon_diamond@3x.png"; sourceTree = "<group>"; };
 		6798612E261F3BA60045485A /* NSMyOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSMyOperation.h; sourceTree = "<group>"; };
 		6798612F261F3BA60045485A /* NSMyOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSMyOperation.m; sourceTree = "<group>"; };
 		67A0A63F25F9040B0070C73F /* Link.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Link.h; sourceTree = "<group>"; };
@@ -133,6 +137,8 @@
 				670A52E52633BEB0003CAADE /* displayLink原理.jpeg */,
 				670A52E82633BEBB003CAADE /* note2.txt */,
 				670A52E02633BEA8003CAADE /* note1.txt */,
+				6788948926366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@2x.png */,
+				6788948A26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@3x.png */,
 				6703D8C62610C2E200331D0B /* objc4-runtime-750 */,
 				675F125C25E8DC1800ED4E83 /* TestDemo */,
 				675F125B25E8DC1800ED4E83 /* Products */,
@@ -277,8 +283,10 @@
 				6703D8C72610C2E200331D0B /* objc4-runtime-750 in Resources */,
 				675F126A25E8DC1A00ED4E83 /* Assets.xcassets in Resources */,
 				675F126825E8DC1800ED4E83 /* Main.storyboard in Resources */,
+				6788948B26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@2x.png in Resources */,
 				670A52E32633BEA8003CAADE /* 问题.txt in Resources */,
 				670A52E22633BEA8003CAADE /* note1.txt in Resources */,
+				6788948C26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@3x.png in Resources */,
 				670A52E92633BEBB003CAADE /* note2.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

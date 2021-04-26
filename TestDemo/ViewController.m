@@ -133,6 +133,34 @@
     JSContext *context = [JSContext currentContext];
     NSLog(@"%@",context.globalObject);
     
+    
+   
+    //https://www.jianshu.com/p/213702004d0d
+    UIImageView *firstView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    firstView.image = [UIImage imageNamed:@"live_card_gift_balance_icon_diamond"];
+    firstView.backgroundColor = [UIColor redColor];
+    
+    UIView *secondView = [[UIView alloc] initWithFrame:CGRectZero];
+    secondView.backgroundColor = [UIColor orangeColor];
+    
+    UIView *thridView = [[UIView alloc] initWithFrame:CGRectZero];
+    thridView.backgroundColor = [UIColor blueColor];
+    
+    UIView *forthView = [[UIView alloc] initWithFrame:CGRectZero];
+    forthView.backgroundColor = [UIColor greenColor];
+
+    // UIStackView
+    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[firstView, secondView, thridView, forthView]];
+    stackView.frame = CGRectMake(200, 250, 150, 60);
+//    stackView.backgroundColor = [UIColor systemPinkColor];
+    stackView.axis = UILayoutConstraintAxisHorizontal;
+    stackView.alignment = UIStackViewAlignmentFill;
+    stackView.distribution = UIStackViewDistributionFillEqually;
+    stackView.spacing = 20;
+    stackView.contentMode = UIViewContentModeScaleAspectFit;
+    
+
+    [self.view addSubview:stackView];
 }
 
 
