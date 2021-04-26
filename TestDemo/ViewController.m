@@ -151,16 +151,23 @@
 
     // UIStackView
     UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[firstView, secondView, thridView, forthView]];
-    stackView.frame = CGRectMake(200, 250, 150, 60);
+    stackView.frame = CGRectMake(200, 250, 0, 0);
 //    stackView.backgroundColor = [UIColor systemPinkColor];
     stackView.axis = UILayoutConstraintAxisHorizontal;
     stackView.alignment = UIStackViewAlignmentFill;
+    // 不用写stackview的大小，只需要固定他的位置就行了，然后通过设置spaciing和distribution接口确定stackview的大小。
     stackView.distribution = UIStackViewDistributionFillEqually;
     stackView.spacing = 20;
     stackView.contentMode = UIViewContentModeScaleAspectFit;
-    
-
     [self.view addSubview:stackView];
+    
+    
+    // UIWebView
+    WKWebView *webview = [[WKWebView alloc] initWithFrame:CGRectMake(0, 350, 320, 50)];
+    webview.backgroundColor = [UIColor orangeColor];
+    [webview loadHTMLString:@"<a href=\"calendar://\">Click me!</a>" baseURL:nil];
+    [self.view addSubview:webview];
+    
 }
 
 
