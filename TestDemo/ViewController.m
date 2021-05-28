@@ -24,7 +24,10 @@
 #import <JavaScriptCore/JSVirtualMachine.h>
 #import <JavaScriptCore/JSContext.h>
 
-@interface ViewController ()<WKNavigationDelegate, WKScriptMessageHandler>
+#import <EventKit/EventKit.h>
+#import <EventKitUI/EventKitUI.h>
+
+@interface ViewController ()<WKNavigationDelegate, WKScriptMessageHandler, EKEventEditViewDelegate>
 @property (nonnull, copy) NSString *name;
 @property (nonatomic, strong) GCD *gcd;
 @end
@@ -162,12 +165,92 @@
     [self.view addSubview:stackView];
     
     
-    // UIWebView
-    WKWebView *webview = [[WKWebView alloc] initWithFrame:CGRectMake(0, 350, 320, 50)];
-    webview.backgroundColor = [UIColor orangeColor];
-    [webview loadHTMLString:@"<a href=\"calendar://\">Click me!</a>" baseURL:nil];
-    [self.view addSubview:webview];
+    UIImageView *testimageView = [[UIImageView alloc] initWithFrame: CGRectMake(100, 400, 60, 40)];
+    testimageView.backgroundColor = [UIColor greenColor];
+    [self.view addSubview:testimageView];
+
+    // 阴影,UIView必须要设置背景色，不然阴影设置不了
+    testimageView.backgroundColor = [UIColor whiteColor];
+    testimageView.layer.shadowColor = [UIColor blackColor].CGColor;
+    testimageView.layer.shadowOpacity = 0.8f;
+    testimageView.layer.shadowRadius = 4.f;
+    testimageView.layer.shadowOffset = CGSizeMake(0, -5);
     
+    
+    // UIWebView
+//    WKWebView *webview = [[WKWebView alloc] initWithFrame:CGRectMake(0, 350, 320, 50)];
+//    webview.backgroundColor = [UIColor orangeColor];
+//    [webview loadHTMLString:@"<a href=\"calendar://\">Click me!</a>" baseURL:nil];
+//    [self.view addSubview:webview];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        // [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"calshow:20"]];
+        //
+       
+        EKEventStore *store = [[EKEventStore alloc] init];
+
+        if ([store respondsToSelector:@selector(requestAccessToEntityType:completion:)]) {
+            
+            [store requestAccessToEntityType:(EKEntityTypeEvent) completion:^(BOOL granted, NSError * _Nullable error) {
+               
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    if (error) {
+                        NSLog(@"添加失败，，错误了。。。");
+                    } else if (!granted) {
+                        NSLog(@"不允许使用日历，没有权限");
+                    } else {
+                        
+                        EKEvent *event = [EKEvent eventWithEventStore:store];
+                        event.title = @"这是一个 title";
+                        event.location = @"这是一个 location";
+                        
+                        
+                        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                        
+                        NSDate *date = [formatter dateFromString:@"2021-04-27 11:22:33"];
+                        
+                        // 提前一个小时开始
+                        NSDate *startDate = [NSDate dateWithTimeInterval:-3600 sinceDate:date];
+                        // 提前一分钟结束
+                        NSDate *endDate = [NSDate dateWithTimeInterval:60 sinceDate:date];
+                        
+                        event.startDate = startDate;
+                        event.endDate = endDate;
+                        event.allDay = NO;
+                        
+                        // 添加闹钟结合（开始前多少秒）若为正则是开始后多少秒。
+                        EKAlarm *elarm2 = [EKAlarm alarmWithRelativeOffset:-20];
+                        [event addAlarm:elarm2];
+                        EKAlarm *elarm = [EKAlarm alarmWithRelativeOffset:-10];
+                        [event addAlarm:elarm];
+                        
+                        [event setCalendar:[store defaultCalendarForNewEvents]];
+                        
+                        NSError *error = nil;
+                        [store saveEvent:event span:EKSpanThisEvent error:&error];
+                        if (!error) {
+                            NSLog(@"添加时间成功");
+                            //添加成功后需要保存日历关键字
+                            NSString *iden = event.eventIdentifier;
+          // 保存在沙盒，避免重复添加等其他判断
+                            [[NSUserDefaults standardUserDefaults] setObject:iden forKey:@"my_eventIdentifier"];
+                            [[NSUserDefaults standardUserDefaults] synchronize];
+                        }
+                        
+                    }
+                });
+            }];
+        }
+      
+        
+        
+    });
+}
+
+- (void)eventEditViewController:(EKEventEditViewController *)controller didCompleteWithAction:(EKEventEditViewAction)action {
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 
