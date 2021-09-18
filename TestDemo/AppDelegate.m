@@ -30,7 +30,6 @@
     self.name = @"aaa";
     
     NSLog(@"%@", NSHomeDirectory());
-    [self redirectConsoleLogToDocumentFolder];
     
     NSLog(@"enter didFinishLaunchingWithOptions:%@", launchOptions);
     
@@ -67,26 +66,6 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     NSLog(@"enter didReceiveRemoteNotification");
-}
-     
-
-- (void)redirectConsoleLogToDocumentFolder
-{
-#ifdef DEBUG //只在调试时使用，不然在真机下也会输出到沙盒目录
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    //首先输出日志文件的路径,方便我们定位目录
-    NSLog(@"log path:%@", documentsDirectory);
-    
-    //先删除上次输出的日志
-    NSString *logFile = [[NSString alloc] initWithFormat:@"%@/log.txt", documentsDirectory];
-    NSError *err;
-    [[NSFileManager defaultManager] removeItemAtPath:logFile error:&err];
-    
-    //重定向NSLog输出
-    NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"log.txt"];
-    freopen([logPath fileSystemRepresentation], "a+", stderr);
-#endif
 }
 
 
