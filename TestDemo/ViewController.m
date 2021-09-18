@@ -113,7 +113,7 @@
     [[Link new] test];
     [[sort new] test];
     [[semphore new] test];
-    [[Array new] test];
+    [[Array new] fibnaq:10];
     
     [[Runtime new] test];
 

@@ -75,4 +75,19 @@ void test(int *nums, int len){
     }
 }
 
+- (void)fibnaq:(int)count {
+    NSInteger num = 0;
+    NSInteger first = 0;
+    NSInteger second = 1;
+    
+    printf("finnaqi:0\n");
+    while (count > 0) {
+        num = first + second;
+        first = second;
+        second = num;
+        count--;
+        printf("finnaqi: %ld\n", num);
+    }
+}
+
 @end

@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Array : NSObject
 
 - (void)test;
-
+- (void)fibnaq:(int)count;
 @end
 
 NS_ASSUME_NONNULL_END
