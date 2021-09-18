@@ -17,6 +17,7 @@
     
 }
 
+//  生产者，消费者，
 - (void)test {
     // __block 是引用，不加是值引用
      __block int a = 10;
@@ -31,7 +32,8 @@
     // 缓冲区大小
     const int bufferSize = 5;
     
-    dispatch_semaphore_t semaphoreProduce = dispatch_semaphore_create(3);
+    // 至少需要2个锁。
+    dispatch_semaphore_t semaphoreProduce = dispatch_semaphore_create(bufferSize);
     // 后续的signal 会导致比初始值大
     dispatch_semaphore_t semaphoreConsume = dispatch_semaphore_create(0);
     
@@ -70,7 +72,7 @@
 
 
 - (void)dealloc {
-    
+    [super dealloc];
 }
 
 

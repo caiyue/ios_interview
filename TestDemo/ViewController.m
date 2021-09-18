@@ -27,6 +27,9 @@
 #import <EventKit/EventKit.h>
 #import <EventKitUI/EventKitUI.h>
 
+#import <MBProgressHUD/MBProgressHUD.h>
+
+
 @interface ViewController ()<WKNavigationDelegate, WKScriptMessageHandler, EKEventEditViewDelegate>
 @property (nonnull, copy) NSString *name;
 @property (nonatomic, strong) GCD *gcd;
@@ -53,6 +56,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+#ifdef test_name
+    NSLog(@"aaaaaaaaaa");
+#endif
+    
+#ifdef test_name2
+    NSLog(@"aaaaaaaaaa");
+#endif
+    
+    
 //    [self talk];
     
     CustomerAView *aView = [[CustomerAView alloc] initWithFrame:CGRectMake(0, 0, 375, 200)];
@@ -60,11 +73,19 @@
     aView.tag = 1000;
     [self.view addSubview:aView];
     
+    // 设置border，可显示区域就要缩小了
+    UIView *te  = [[UIView alloc] initWithFrame:CGRectMake(150, 220, 40,  40)];
+    te.layer.borderColor = [UIColor redColor].CGColor;
+    te.layer.borderWidth = 15;
+    [self.view addSubview:te];
+    NSLog(@"border frame ====%@", te);
+    
     
     CustomerBView2 *bView = [[CustomerBView2 alloc] initWithFrame:CGRectMake(0, 0, 375, 200)];
     bView.backgroundColor = [UIColor clearColor];
 //    bView.alpha = 0;
     [self.view addSubview:bView];
+
     
     
     
@@ -120,7 +141,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
        self.gcd = [GCD new];
         // 生产者 & 消费者
-        // [self.gcd test];
+         [self.gcd test];
     });
     
     
@@ -183,7 +204,7 @@
 //    [webview loadHTMLString:@"<a href=\"calendar://\">Click me!</a>" baseURL:nil];
 //    [self.view addSubview:webview];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         // [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"calshow:20"]];
         //
        
@@ -247,6 +268,22 @@
         
         
     });
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(100, 300, 30, 30)];
+    
+    MBProgressHUD *mb = [[MBProgressHUD alloc] init];
+    mb.margin = 5;
+    mb.mode = MBProgressHUDModeAnnularDeterminate;
+    [view addSubview:mb];
+    [self.view addSubview:view];
+    
+    [mb showAnimated:YES];
+    
+    mb.progress = 0.8;
 }
 
 - (void)eventEditViewController:(EKEventEditViewController *)controller didCompleteWithAction:(EKEventEditViewAction)action {
@@ -402,6 +439,7 @@
 
 - (void)jump {
     TimerSecondViewController *sec = [[TimerSecondViewController alloc] init];
+    sec.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:sec animated:YES completion:nil];
 }
 

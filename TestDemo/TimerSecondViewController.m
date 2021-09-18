@@ -6,6 +6,7 @@
 //
 
 #import "TimerSecondViewController.h"
+#import <UserNotifications/UserNotifications.h>
 
 @interface TimerSecondViewController ()
 @end
@@ -41,6 +42,35 @@
     [link addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    // 发送本地push推送
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        if (center == nil) {
+            return;
+        }
+        UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+        content.title = @"title";
+        content.body = @"this is body";
+        content.sound = [UNNotificationSound defaultSound];
+        content.userInfo = @{};;
+        
+        UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"caiyue" content:content trigger:nil];
+        if (request == nil) {
+            return;
+        }
+        [center addNotificationRequest:request withCompletionHandler:^(NSError *_Nullable error) {
+            if (error) {
+//                DDLogInfo(@"本地push发送失败-%@", error);
+            } else {
+//                DDLogInfo(@"本地push发送成功");
+            }
+        }];
+    });
 }
 
 - (void)repeat {

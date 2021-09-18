@@ -6,8 +6,10 @@
 //
 
 #import "AppDelegate.h"
+#import <UserNotifications/UserNotifications.h>
 
-@interface AppDelegate ()
+
+@interface AppDelegate ()<UNUserNotificationCenterDelegate>
 
 @end
 
@@ -26,13 +28,69 @@
     // Override point for customization after application launch.
     
     self.name = @"aaa";
+    
+    NSLog(@"%@", NSHomeDirectory());
+    [self redirectConsoleLogToDocumentFolder];
+    
+    NSLog(@"enter didFinishLaunchingWithOptions:%@", launchOptions);
+    
+    if (@available(iOS 10.0, *)) {
+        NSSet<UNNotificationCategory *> *categories = ({
+            NSMutableSet<UNNotificationCategory *> *set = [NSMutableSet set];
+            // Add categories here if needed
+            set.copy;
+        });
+        [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:categories];
+        // set UNUserNotificationCenterDelegate
+        [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+    } else {
+        // Fallback on earlier versions
+    }
+    
+    
+    [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        if (granted) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] registerForRemoteNotifications];
+            });
+        }}];
+    
+    
     return YES;
+}
+
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString *str = [NSString stringWithFormat:@"Device Token=%@", deviceToken];
+//    DDLogInfo(@"didRegisterForRemoteNotificationsWithDeviceToken:%@", str);
+}
+     
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    NSLog(@"enter didReceiveRemoteNotification");
+}
+     
+
+- (void)redirectConsoleLogToDocumentFolder
+{
+#ifdef DEBUG //只在调试时使用，不然在真机下也会输出到沙盒目录
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    //首先输出日志文件的路径,方便我们定位目录
+    NSLog(@"log path:%@", documentsDirectory);
+    
+    //先删除上次输出的日志
+    NSString *logFile = [[NSString alloc] initWithFormat:@"%@/log.txt", documentsDirectory];
+    NSError *err;
+    [[NSFileManager defaultManager] removeItemAtPath:logFile error:&err];
+    
+    //重定向NSLog输出
+    NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"log.txt"];
+    freopen([logPath fileSystemRepresentation], "a+", stderr);
+#endif
 }
 
 
 #pragma mark - UISceneSession lifecycle
-
-
 - (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options {
     // Called when a new scene session is being created.
     // Use this method to select a configuration to create the new scene with.
@@ -48,6 +106,30 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     NSLog(@"terminated");
+}
+
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler  API_AVAILABLE(ios(10.0)){
+    UNNotificationPresentationOptions options = UNNotificationPresentationOptionNone;
+    if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]] && options == UNNotificationPresentationOptionNone) {
+        // 前台的push不展示，但是需要统计到达
+//        [[KSAppEnvironment environment] logRemoteNotification:notification.request.content.userInfo];
+    }
+    
+    NSLog(@"enter willPresentNotification");
+
+    if (completionHandler) {
+        completionHandler(UNNotificationPresentationOptionAlert);
+    }
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)())completionHandler  API_AVAILABLE(ios(10.0)){
+    
+    NSLog(@"enter didReceiveNotificationResponse");
 }
 
 

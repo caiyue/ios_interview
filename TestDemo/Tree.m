@@ -144,4 +144,41 @@ void levelTravel(BiTree *root) {
 //         }
 }
 
+// 二叉树相邻两层遍历顺序相反
+void traversalTreeWith(BiTree *root) {
+//    List<Node> result = new ArrayList<>();
+//    boolean status = true;
+//    Stack<Node> layerNodes = new Stack<>();
+//    layerNodes.add(root);
+//    while (layerNodes.size() > 0) {
+//        result.addAll(layerNodes);
+//        layerNodes = getNextLayer(layerNodes, status);
+//        status = !status;
+//    }
+//    System.out.println(result);
+}
+
+//public static Stack<Node> getNextLayer(Stack<Node> stack, boolean status) {
+//    Stack<Node> layerNodes = new Stack();
+//    while (stack.size() > 0) {
+//        Node node = stack.pop();
+//        if (status) {
+//            if (node.right != null) {
+//                layerNodes.add(node.right);
+//            }
+//            if (node.left != null) {
+//                layerNodes.add(node.left);
+//            }
+//        } else {
+//            if (node.left != null) {
+//                layerNodes.add(node.left);
+//            }
+//            if (node.right != null) {
+//                layerNodes.add(node.right);
+//            }
+//        }
+//    }
+//    return layerNodes;
+//}
+
 @end

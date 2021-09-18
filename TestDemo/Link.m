@@ -196,4 +196,18 @@ typedef struct Node {
     }
 }
 
+// 环形链表
+- (BOOL)findCircleLink:(LinkNode)head {
+    if (head == NULL || head->next == NULL) return NO;
+        LinkNode faster = head;
+        LinkNode slower = head;
+           while (faster->next != NULL && faster->next->next != NULL) {
+               slower = slower->next;
+               faster = faster->next->next;
+               if (faster == slower)
+                   return YES;
+           }
+    return NO;
+}
+
 @end
