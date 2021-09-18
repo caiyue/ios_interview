@@ -43,8 +43,7 @@
             dispatch_semaphore_wait(semaphoreProduce, DISPATCH_TIME_FOREVER);
             [NSThread sleepForTimeInterval:1];
             if (productCount >= bufferSize) {
-                // 主要是用来执行空转 循环可以重新开始，相当于 continue的意思，但是因为本次执行完毕，需要signal自身。
-                dispatch_semaphore_signal(semaphoreProduce);
+                // 什么也不需要干
             } else {
                 productCount++;
                 NSLog(@"生产商品，商品总量：%d", productCount);
@@ -58,8 +57,7 @@
             dispatch_semaphore_wait(semaphoreConsume, DISPATCH_TIME_FOREVER);
             [NSThread sleepForTimeInterval:1];
             if (productCount == 0 ) {
-                // 主要是用来执行空转 循环可以重新开始，相当于 continue的意思，但是因为本次执行完毕，需要signal自身。
-                dispatch_semaphore_signal(semaphoreConsume);
+                // 什么也不需要干
             } else {
                 productCount--;
                 NSLog(@"消费商品，商品总量：%d", productCount);
