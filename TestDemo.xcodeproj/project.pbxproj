@@ -36,6 +36,7 @@
 		6788948B26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6788948926366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@2x.png */; };
 		6788948C26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6788948A26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@3x.png */; };
 		67906E4E26F8241200C81A96 /* Graph.m in Sources */ = {isa = PBXBuildFile; fileRef = 67906E4D26F8241200C81A96 /* Graph.m */; };
+		67906E5126F85CD500C81A96 /* BloomFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 67906E5026F85CD500C81A96 /* BloomFilter.m */; };
 		67986130261F3BA60045485A /* NSMyOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6798612F261F3BA60045485A /* NSMyOperation.m */; };
 		67A0A64125F9040B0070C73F /* Link.m in Sources */ = {isa = PBXBuildFile; fileRef = 67A0A64025F9040B0070C73F /* Link.m */; };
 		67C5D19025F3530A00A1C2C8 /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C5D18F25F3530A00A1C2C8 /* Array.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -93,6 +94,8 @@
 		6788948A26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "live_card_gift_balance_icon_diamond@3x.png"; sourceTree = "<group>"; };
 		67906E4C26F8241200C81A96 /* Graph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graph.h; sourceTree = "<group>"; };
 		67906E4D26F8241200C81A96 /* Graph.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Graph.m; sourceTree = "<group>"; };
+		67906E4F26F85CD500C81A96 /* BloomFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BloomFilter.h; sourceTree = "<group>"; };
+		67906E5026F85CD500C81A96 /* BloomFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BloomFilter.m; sourceTree = "<group>"; };
 		6798612E261F3BA60045485A /* NSMyOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSMyOperation.h; sourceTree = "<group>"; };
 		6798612F261F3BA60045485A /* NSMyOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSMyOperation.m; sourceTree = "<group>"; };
 		67A0A63F25F9040B0070C73F /* Link.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Link.h; sourceTree = "<group>"; };
@@ -214,6 +217,8 @@
 				67906E4D26F8241200C81A96 /* Graph.m */,
 				675F126325E8DC1800ED4E83 /* ViewController.h */,
 				675F126425E8DC1800ED4E83 /* ViewController.m */,
+				67906E4F26F85CD500C81A96 /* BloomFilter.h */,
+				67906E5026F85CD500C81A96 /* BloomFilter.m */,
 			);
 			path = TestDemo;
 			sourceTree = "<group>";
@@ -331,6 +336,7 @@
 				6703D8BD260B81A400331D0B /* TimerSecondViewController.m in Sources */,
 				6755BDD725ED2B5E00CB3D9B /* CustomerBView.m in Sources */,
 				67146F8725FD3101001C8E0D /* RunLoop.m in Sources */,
+				67906E5126F85CD500C81A96 /* BloomFilter.m in Sources */,
 				67D6BA212605CBC400BAD1EF /* GCD.m in Sources */,
 				67C5D1CA25F725C100A1C2C8 /* AppDelegate+Launch.m in Sources */,
 				6755BDD325ED2B5500CB3D9B /* CustomerAView.m in Sources */,
