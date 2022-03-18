@@ -35,6 +35,8 @@
 		677D87692615D36E0063D923 /* Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = 677D87682615D36E0063D923 /* Runtime.m */; };
 		6788948B26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6788948926366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@2x.png */; };
 		6788948C26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6788948A26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@3x.png */; };
+		67906E4E26F8241200C81A96 /* Graph.m in Sources */ = {isa = PBXBuildFile; fileRef = 67906E4D26F8241200C81A96 /* Graph.m */; };
+		67906E5126F85CD500C81A96 /* BloomFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 67906E5026F85CD500C81A96 /* BloomFilter.m */; };
 		67986130261F3BA60045485A /* NSMyOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6798612F261F3BA60045485A /* NSMyOperation.m */; };
 		67A0A64125F9040B0070C73F /* Link.m in Sources */ = {isa = PBXBuildFile; fileRef = 67A0A64025F9040B0070C73F /* Link.m */; };
 		67C5D19025F3530A00A1C2C8 /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C5D18F25F3530A00A1C2C8 /* Array.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -90,6 +92,10 @@
 		677D87682615D36E0063D923 /* Runtime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Runtime.m; sourceTree = "<group>"; };
 		6788948926366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "live_card_gift_balance_icon_diamond@2x.png"; sourceTree = "<group>"; };
 		6788948A26366E9A0072BDB0 /* live_card_gift_balance_icon_diamond@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "live_card_gift_balance_icon_diamond@3x.png"; sourceTree = "<group>"; };
+		67906E4C26F8241200C81A96 /* Graph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graph.h; sourceTree = "<group>"; };
+		67906E4D26F8241200C81A96 /* Graph.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Graph.m; sourceTree = "<group>"; };
+		67906E4F26F85CD500C81A96 /* BloomFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BloomFilter.h; sourceTree = "<group>"; };
+		67906E5026F85CD500C81A96 /* BloomFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BloomFilter.m; sourceTree = "<group>"; };
 		6798612E261F3BA60045485A /* NSMyOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSMyOperation.h; sourceTree = "<group>"; };
 		6798612F261F3BA60045485A /* NSMyOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSMyOperation.m; sourceTree = "<group>"; };
 		67A0A63F25F9040B0070C73F /* Link.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Link.h; sourceTree = "<group>"; };
@@ -166,8 +172,6 @@
 				6755BE4225F0B87800CB3D9B /* ARC.m */,
 				67C5D18E25F3530A00A1C2C8 /* Array.h */,
 				67C5D18F25F3530A00A1C2C8 /* Array.m */,
-				6798612E261F3BA60045485A /* NSMyOperation.h */,
-				6798612F261F3BA60045485A /* NSMyOperation.m */,
 				675F126925E8DC1A00ED4E83 /* Assets.xcassets */,
 				6755BDCD25EC992800CB3D9B /* char.h */,
 				6755BDCE25EC992800CB3D9B /* char.m */,
@@ -179,36 +183,42 @@
 				67C5D19E25F3DBE300A1C2C8 /* CustomerBView2.m */,
 				67D6BA1F2605CBC400BAD1EF /* GCD.h */,
 				67D6BA202605CBC400BAD1EF /* GCD.m */,
+				670A52EF2633FD32003CAADE /* Image.h */,
+				670A52F02633FD32003CAADE /* Image.m */,
 				675F126E25E8DC1A00ED4E83 /* Info.plist */,
 				675F126B25E8DC1A00ED4E83 /* LaunchScreen.storyboard */,
 				67A0A63F25F9040B0070C73F /* Link.h */,
-				677D87672615D36E0063D923 /* Runtime.h */,
-				677D87682615D36E0063D923 /* Runtime.m */,
 				67A0A64025F9040B0070C73F /* Link.m */,
 				675F127725EB78D900ED4E83 /* LRU.h */,
 				675F127825EB78D900ED4E83 /* LRU.mm */,
 				675F126F25E8DC1A00ED4E83 /* main.m */,
 				675F126625E8DC1800ED4E83 /* Main.storyboard */,
+				6798612E261F3BA60045485A /* NSMyOperation.h */,
+				6798612F261F3BA60045485A /* NSMyOperation.m */,
 				67C5D19225F3658800A1C2C8 /* Request.h */,
 				67C5D19325F3658800A1C2C8 /* Request.m */,
 				67146F8525FD3101001C8E0D /* RunLoop.h */,
 				67146F8625FD3101001C8E0D /* RunLoop.m */,
+				677D87672615D36E0063D923 /* Runtime.h */,
+				677D87682615D36E0063D923 /* Runtime.m */,
 				675F126025E8DC1800ED4E83 /* SceneDelegate.h */,
 				675F126125E8DC1800ED4E83 /* SceneDelegate.m */,
-				6703D8BB260B81A400331D0B /* TimerSecondViewController.h */,
-				6703D8BC260B81A400331D0B /* TimerSecondViewController.m */,
 				6755BDC925EC95EB00CB3D9B /* semphore.h */,
 				6755BDCA25EC95EB00CB3D9B /* semphore.m */,
 				675F128025EBA83700ED4E83 /* sort.h */,
 				675F128125EBA83700ED4E83 /* sort.m */,
-				675F127C25EB885600ED4E83 /* Tree.h */,
-				675F127D25EB885600ED4E83 /* Tree.m */,
-				675F126325E8DC1800ED4E83 /* ViewController.h */,
-				675F126425E8DC1800ED4E83 /* ViewController.m */,
 				670A52EB2633C014003CAADE /* SQLite.h */,
 				670A52EC2633C014003CAADE /* SQLite.m */,
-				670A52EF2633FD32003CAADE /* Image.h */,
-				670A52F02633FD32003CAADE /* Image.m */,
+				6703D8BB260B81A400331D0B /* TimerSecondViewController.h */,
+				6703D8BC260B81A400331D0B /* TimerSecondViewController.m */,
+				675F127C25EB885600ED4E83 /* Tree.h */,
+				675F127D25EB885600ED4E83 /* Tree.m */,
+				67906E4C26F8241200C81A96 /* Graph.h */,
+				67906E4D26F8241200C81A96 /* Graph.m */,
+				675F126325E8DC1800ED4E83 /* ViewController.h */,
+				675F126425E8DC1800ED4E83 /* ViewController.m */,
+				67906E4F26F85CD500C81A96 /* BloomFilter.h */,
+				67906E5026F85CD500C81A96 /* BloomFilter.m */,
 			);
 			path = TestDemo;
 			sourceTree = "<group>";
@@ -326,6 +336,7 @@
 				6703D8BD260B81A400331D0B /* TimerSecondViewController.m in Sources */,
 				6755BDD725ED2B5E00CB3D9B /* CustomerBView.m in Sources */,
 				67146F8725FD3101001C8E0D /* RunLoop.m in Sources */,
+				67906E5126F85CD500C81A96 /* BloomFilter.m in Sources */,
 				67D6BA212605CBC400BAD1EF /* GCD.m in Sources */,
 				67C5D1CA25F725C100A1C2C8 /* AppDelegate+Launch.m in Sources */,
 				6755BDD325ED2B5500CB3D9B /* CustomerAView.m in Sources */,
@@ -336,6 +347,7 @@
 				670A52ED2633C014003CAADE /* SQLite.m in Sources */,
 				675F128225EBA83700ED4E83 /* sort.m in Sources */,
 				675F125F25E8DC1800ED4E83 /* AppDelegate.m in Sources */,
+				67906E4E26F8241200C81A96 /* Graph.m in Sources */,
 				67A0A64125F9040B0070C73F /* Link.m in Sources */,
 				6755BE4325F0B87800CB3D9B /* ARC.m in Sources */,
 				675F127025E8DC1A00ED4E83 /* main.m in Sources */,

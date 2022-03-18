@@ -18,6 +18,8 @@ struct DLinkedNode {
     DLinkedNode(int _key, int _value): key(_key), value(_value), prev(nullptr), next(nullptr) {}
 };
 
+
+// 双向链表+hashMap来做LRU算法，hashmap用来提高查询速度，定位元素位置
 class LRUCache {
 private:
     unordered_map<int, DLinkedNode*> cache;
