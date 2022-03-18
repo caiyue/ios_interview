@@ -183,6 +183,17 @@
     stackView.distribution = UIStackViewDistributionFillEqually;
     stackView.spacing = 20;
     stackView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    /**
+     UIViewContentModeScaleAspectFit
+     等比例缩小，用来适应视图
+     
+     等比例放大，可能会超出视图区域，所以，需要以来view.clipsToBounds属性来截掉超出部分（clipsToBounds注意view的frame调整后调用，如果frame为zero，调用有可能无效果）
+     UIViewContentModeScaleAspectFill
+
+     */
+    
+    
     [self.view addSubview:stackView];
     
     
@@ -196,6 +207,9 @@
     testimageView.layer.shadowOpacity = 0.8f;
     testimageView.layer.shadowRadius = 4.f;
     testimageView.layer.shadowOffset = CGSizeMake(0, -5);
+    
+//    testimageView.layer.borderWidth = 0.5;
+//    testimageView.layer.masksToBounds = NO;
     
     
     // UIWebView
