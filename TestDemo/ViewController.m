@@ -206,7 +206,7 @@
     testimageView.layer.shadowColor = [UIColor blackColor].CGColor;
     testimageView.layer.shadowOpacity = 0.8f;
     testimageView.layer.shadowRadius = 4.f;
-    testimageView.layer.shadowOffset = CGSizeMake(0, -5);
+    testimageView.layer.shadowOffset = CGSizeMake(0, 0); // 默认是0 -3 顶部阴影，0 0 是4个方向都有阴影
     
 //    testimageView.layer.borderWidth = 0.5;
 //    testimageView.layer.masksToBounds = NO;
