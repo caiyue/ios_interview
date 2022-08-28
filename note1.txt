@@ -288,6 +288,7 @@ KVO:是基于KVC的，生成中间类，重写setter方法，修改isa指针。�
 
 KVC: 程序优先调用set<Key>:属性值方法，代码通过setter方法完成设置。如果没有找到setName：方法，KVC机制会检查+ (BOOL)accessInstanceVariablesDirectly。如果该方法让其返回NO的话，那么在这一步KVC会执行setValue：forUndefinedKey：方法
 如果返回YESKVC机制会搜索该类里面有没有名为_<key>的成员变量。
+KVC 依赖setter方法或者实例变量，如果你创建了一个readonly的属性（会创建ivar变量）且重写了getter方法，就不会创建ivar变量，就无法使用KVC进行设置，这样会crash的。
 
 静态库：链接时被完整复制到可执行文件中，多次使用就多份拷贝。
 动态库：链接时不复制，而是由系统动态加载到内存，内存中只会有一份该动态库。
