@@ -830,6 +830,27 @@ __forwarding指针是为了在__block变量从栈复制到堆上后，在Block�
 
 
 
+jspatch：
+原理是，被替代方法替换成msg_forward，触发消息转发，在invocation中拿到方法和参数，然后调用新的方法（方法内容是空的），并在方法体内执行js 相关的替换代码。
+
+
+多线程优化：
+多线程优化用于优化执行任务,减少主线程压力，但是在多线程的调度中，其他线程会对主线程的调度进行抢占，如何尽可能的提高主线程防止被抢占，提高主线程的响应速度，可以采用以下措施：
+1、创建线程时，通过指定QoS来控制线程优先级为 4（默认是37），这样通过降低线程的优先级，可以降低主线程被抢占的几率。
+2、首页的子线程，有一些网络请求的任务是不能被降级的，所以需要添加个白名单，默认都是控制QoS降低优先级，白名单的走默认优先级。
+
+QoS 和 priority 确实有对应关系，参考 xnu 源码和实验结果，对应关系为：
+QoS                     Priority
+User-Interactive        46，对于 UI 线程是 47（调度会改变线程优先级，UI线程最低可能会降低到29）
+User-Initiated          37 （创建的线程默认 就是这个优先级）
+Utility                 20
+Background              4
+
+
+
+
+
+
 内存：https://juejin.im/post/5abe543bf265da23784064dd
 runtime：https://juejin.im/post/5ac0a6116fb9a028de44d717
 http&s：https://juejin.im/post/5af557a3f265da0b9265a498
