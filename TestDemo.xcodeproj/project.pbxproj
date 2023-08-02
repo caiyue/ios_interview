@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		14AB7D136CC62463A430546A /* libPods-TestDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCB674B9990B4B9B6A47A319 /* libPods-TestDemo.a */; };
+		6701AB192A31794000D37695 /* KMCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6701AB182A31794000D37695 /* KMCardViewController.m */; };
+		6701AB1C2A31795600D37695 /* KMDragCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6701AB1B2A31795600D37695 /* KMDragCardView.m */; };
 		6703D8BD260B81A400331D0B /* TimerSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6703D8BC260B81A400331D0B /* TimerSecondViewController.m */; };
 		6703D8C72610C2E200331D0B /* objc4-runtime-750 in Resources */ = {isa = PBXBuildFile; fileRef = 6703D8C62610C2E200331D0B /* objc4-runtime-750 */; };
 		670A52E22633BEA8003CAADE /* note1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 670A52E02633BEA8003CAADE /* note1.txt */; };
@@ -47,6 +49,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6701AB172A31793F00D37695 /* KMCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMCardViewController.h; sourceTree = "<group>"; };
+		6701AB182A31794000D37695 /* KMCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMCardViewController.m; sourceTree = "<group>"; };
+		6701AB1A2A31795500D37695 /* KMDragCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMDragCardView.h; sourceTree = "<group>"; };
+		6701AB1B2A31795600D37695 /* KMDragCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMDragCardView.m; sourceTree = "<group>"; };
+		6701AB1D2A31796400D37695 /* CardHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardHeader.h; sourceTree = "<group>"; };
 		6703D8BB260B81A400331D0B /* TimerSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimerSecondViewController.h; sourceTree = "<group>"; };
 		6703D8BC260B81A400331D0B /* TimerSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimerSecondViewController.m; sourceTree = "<group>"; };
 		6703D8C62610C2E200331D0B /* objc4-runtime-750 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "objc4-runtime-750"; sourceTree = "<group>"; };
@@ -164,6 +171,11 @@
 		675F125C25E8DC1800ED4E83 /* TestDemo */ = {
 			isa = PBXGroup;
 			children = (
+				6701AB1D2A31796400D37695 /* CardHeader.h */,
+				6701AB1A2A31795500D37695 /* KMDragCardView.h */,
+				6701AB1B2A31795600D37695 /* KMDragCardView.m */,
+				6701AB172A31793F00D37695 /* KMCardViewController.h */,
+				6701AB182A31794000D37695 /* KMCardViewController.m */,
 				675F125D25E8DC1800ED4E83 /* AppDelegate.h */,
 				675F125E25E8DC1800ED4E83 /* AppDelegate.m */,
 				67C5D1C825F725C100A1C2C8 /* AppDelegate+Launch.h */,
@@ -335,10 +347,12 @@
 			files = (
 				6703D8BD260B81A400331D0B /* TimerSecondViewController.m in Sources */,
 				6755BDD725ED2B5E00CB3D9B /* CustomerBView.m in Sources */,
+				6701AB1C2A31795600D37695 /* KMDragCardView.m in Sources */,
 				67146F8725FD3101001C8E0D /* RunLoop.m in Sources */,
 				67906E5126F85CD500C81A96 /* BloomFilter.m in Sources */,
 				67D6BA212605CBC400BAD1EF /* GCD.m in Sources */,
 				67C5D1CA25F725C100A1C2C8 /* AppDelegate+Launch.m in Sources */,
+				6701AB192A31794000D37695 /* KMCardViewController.m in Sources */,
 				6755BDD325ED2B5500CB3D9B /* CustomerAView.m in Sources */,
 				67C5D19F25F3DBE300A1C2C8 /* CustomerBView2.m in Sources */,
 				6755BDCB25EC95EB00CB3D9B /* semphore.m in Sources */,
