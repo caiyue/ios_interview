@@ -21,6 +21,8 @@ https://blog.csdn.net/qq_27909209/article/details/81514891
 
 
 
+block 只有匿名block 才会是stackblock，局部变量block 也会拷贝到堆上变成mallocblock
+
 
 https
 view渲染过程
