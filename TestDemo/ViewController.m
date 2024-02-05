@@ -92,9 +92,16 @@
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setTitle:@"页面跳转" forState:UIControlStateNormal];
     btn.backgroundColor = [UIColor orangeColor];
-    btn.frame = CGRectMake(100, 500, 80, 50);
+    btn.frame = CGRectMake(50, 500, 80, 50);
     [btn addTarget:self action:@selector(jump) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview: btn];
+    
+    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn2 setTitle:@"动画" forState:UIControlStateNormal];
+    btn2.backgroundColor = [UIColor orangeColor];
+    btn2.frame = CGRectMake(180, 500, 80, 50);
+    [btn2 addTarget:self action:@selector(jump2:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview: btn2];
     
     
     // 穿行队列卡死
@@ -455,6 +462,19 @@
     TimerSecondViewController *sec = [[TimerSecondViewController alloc] init];
     sec.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:sec animated:YES completion:nil];
+}
+
+- (void)jump2:(UIButton *)btn {
+    // 从原始大小变化,重复执行不会变化
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    // 从已经变化的大小继续变化,每次都是之前的0.8大小
+    transform = btn.transform;
+    
+    transform = CGAffineTransformTranslate(transform, 0, 20);
+    transform = CGAffineTransformScale(transform, 0.8, 0.8);
+//    transform = CGAffineTransformTranslate(transform, 0, -(currentHeight / scale / 2) * (1 - scale) / scale);
+    
+    btn.transform = transform;
 }
 
 @end

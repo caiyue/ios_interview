@@ -24,10 +24,10 @@
     NSLog(@"self=====%@",self);
     if (self = [super initWithFrame:frame]) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn setTitle:@"ViewB-Btn-B" forState:UIControlStateNormal];
+        [btn setTitle:@"ViewB-Btn-B1" forState:UIControlStateNormal];
         btn.backgroundColor = [UIColor redColor];
         btn.frame = CGRectMake(100, 100, 80, 30);
-        [btn addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
+        [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn];
         
         
@@ -35,7 +35,7 @@
         [btn2 setTitle:@"ViewB-Btn-B2" forState:UIControlStateNormal];
         btn2.backgroundColor = [UIColor redColor];
         btn2.frame = CGRectMake(100, 600, 80, 30);
-        [btn2 addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
+        [btn2 addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn2];
     }
     
@@ -61,19 +61,14 @@
 
 
 
-- (void)click {
+- (void)click:(UIButton *)sender {
     NSLog(@"you click B View hash:%d", self.hash);
-    
-    CAAnimationGroup *a;
-    a.animations = @[];
-    
-//    self.layer addAnimation:<#(nonnull CAAnimation *)#> forKey:<#(nullable NSString *)#>
-//    self.layer.
-    
-    CABasicAnimation *b;
-    CAKeyframeAnimation *c;
-    
-//    self.layer.shouldRasterize 
+
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    transform = CGAffineTransformTranslate(transform, 0, 20);
+    transform = CGAffineTransformScale(transform, 0.2, 0.2);
+//    transform = CGAffineTransformTranslate(transform, 0, -(currentHeight / scale / 2) * (1 - scale) / scale);
+    sender.transform = transform;
 }
 
 
